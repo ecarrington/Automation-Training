@@ -14,3 +14,5 @@
       copy:
         content: "{{ running-config.stdout[0] }}"
         dest: "./config_backup/{{ inventory_hostname }}_running-config.conf"
+
+...
