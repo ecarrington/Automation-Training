@@ -1,0 +1,35 @@
+--- # typical start of file. Optional, but linters will flag this.
+
+# List
+# Duplicate index names or values are allowed
+
+name_of_list: # name of the list
+  - # each index in the list is preceded by a '-'
+
+access_interfaces:
+  - Gi0/1
+  - Gi0/2
+  - Gi0/3
+
+trunk_interfaces:
+  - Gi0/23
+  - Gi0/24
+
+ntp_servers:
+  - 1.1.1.1
+  - 2.2.2.2
+  - 3.3.3.3
+  - time-a-g.nist.gov
+
+access_list_1:
+  - 10 permit host 10.1.5.1
+  - 20 permit 10.1.4.0 0.0.0.255
+  - 30 deny   any log
+
+access_list_extended_101:
+  - 10 permit tcp host 10.0.2.7 any eq 22
+  - 20 permit udp host 10.0.2.8 any eq domain
+  - 30 deny ip any any log
+
+
+... # typical end of file. Optional, but linters will flag this

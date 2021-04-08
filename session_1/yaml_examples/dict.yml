@@ -1,0 +1,62 @@
+
+--- # typical start of file. Optional, but linters will flag this.
+
+# Dictionary
+
+# A set of key-value pairs
+
+# We cannot have duplicate keys in a dictionary, but we can have duplicate vlaues, or more than one value corresponding to a given key
+
+# no dashes here!
+
+name_of_dict: # name of dictionary
+  key1: value1
+  key2: value2
+
+Gi0/1:
+  type: access
+  description: user port
+  oper_status: down
+Gi0/2:
+  type: access
+  description: user port
+  oper_status: down
+Gi0/3:
+  type: access
+  description: user port
+  oper_status: down
+Gi0/4:
+  type: access
+  description: user port
+  oper_status: down
+Gi0/5:
+  type: access
+  description: user port
+  oper_status: down
+Gi0/23:
+  type: trunk
+  description: Uplink to DSW
+  allowed_vlans: 102,202,302,402,502 # actually seen as a single value like this
+Gi0/24:
+  type: trunk
+  description: Uplink to DSW
+  allowed_vlans: 102,202,302,402,502
+
+# dictionary with multi-valued key for Port-Channel definition
+host_port_channel:
+  interface: Po1
+  type: LACP
+  members: # key, with list as value
+    - Gi0/1
+    - Gi0/2
+
+# boolean representations
+defaults:
+  aaa_new_model: true
+  ip_routing: TRUE
+  ip_domain_lookup: false
+  multicast_routing: FALSE
+  dot1x_enabled: yes
+  telnet: no 
+
+... # typical end of YAML file. Optional, but linters will flag this

@@ -34,6 +34,11 @@
 - We pass templates and variables to modules as required to make a module function.
   - Variables provide a level of abstraction and help identify differences between target devices. We variablize differences to make templates and playbooks reusable. (DRY-Don't Repeat Yourself)
 
+
+#### INSERT PB STRUCTURE DIAGRAM HERE
+
 ##### YAML (Yaml Ain't Markup Language
 - Human-readable data **serialization** (aka not used for markup) language commonly used for configuration files or applications where data is stored or transmitted.
-- Domain-Specific Language of Ansible (DSL)
+- Domain-Specific Language of Ansible (DSL). Used to abstract pythonic complexity away from the underlying framework to solve a certain class of problems.
+- In Ansible, nearly all YAML files start with a list, and each item in the list is another list of key/value pairs referred to as a dictionary or hash
+- See examples [here](../yaml_examples/)

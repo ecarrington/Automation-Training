@@ -1,0 +1,56 @@
+--- # typical start of file. Optional, but linters will flag this.
+
+# notice the '-' is on the 'name' key, which represents the list index
+
+# each index is a dictionary describing a VLAN
+
+host_vlans:
+  - name: default
+    vlan_id: 1
+    state: shutdown
+    shutdown: enabled
+  - name: test1
+    vlan_id: 10
+    state: active
+    shutdown: disabled
+  - name: test2
+    vlan_id: 20
+    state: active
+    shutdown: disabled
+  - name: test3
+    vlan_id: 20
+    state: active
+    shutdown: disabled
+  - name: fddi-default
+    vlan_id: 1002
+    state: suspend
+    shutdown: disabled
+  - name: token-ring-default
+    vlan_id: 1003
+    state: suspend
+    shutdown: disabled
+  - name: fddi-default
+    vlan_id: 1004
+    state: suspend
+    shutdown: disabled
+  - name: trnet-default
+    vlan_id: 1005
+    state: suspend
+    shutdown: disabled
+
+aaa_servers:
+  - host: TACACS1
+    ip: 10.10.1.1
+    key: ansible
+  - host: TACACS2
+    ip: 10.10.1.2
+    key: ansible2
+
+host_port_channel:
+  interface: Po1
+  type: LACP
+  members:
+    - Gi0/1
+    - Gi0/2
+
+... # typical end of YAML file. Optional, but linters will flag this.

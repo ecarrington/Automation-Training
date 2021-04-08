@@ -1,0 +1,19 @@
+
+quote variables like "{{ this }}"
+
+Variables must always be quoted!
+
+Strings in YAML only require quotation if the value can be misinterpreted as a different data type, such as an integer
+
+
+Double quotes let us escape special characters as needed. Your IDE should catch this
+
+my_variable1: "{{ other_variable }}\\backslash\nnewline\ttab\\etc"
+
+my_variable1: "{{ other_variable }}/additional/string/literal"
+
+my_variable1: '{{ other_variable }}\\escaping\\not\\happening\t'
+
+my_variable2: "Even without variables inline, although not required, string literals should always be quoted"
+
+When in doubt, use double quotes!
