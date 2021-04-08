@@ -46,11 +46,6 @@ aaa_servers:
     ip: 10.10.1.2
     key: ansible2
 
-host_port_channel:
-  interface: Po1
-  type: LACP
-  members:
-    - Gi0/1
-    - Gi0/2
+
 
 ... # typical end of YAML file. Optional, but linters will flag this.

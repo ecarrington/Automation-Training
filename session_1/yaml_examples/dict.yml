@@ -57,6 +57,6 @@ defaults:
   ip_domain_lookup: false
   multicast_routing: FALSE
   dot1x_enabled: yes
-  telnet: no 
+  telnet: no
 
 ... # typical end of YAML file. Optional, but linters will flag this
