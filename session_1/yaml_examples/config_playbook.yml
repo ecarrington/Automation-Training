@@ -1,0 +1,16 @@
+---
+
+- name: PLAY 1 - Connect to and Back Up Running Config on Target Hosts
+  hosts: all
+  connection: network_cli
+
+  tasks:
+    - name: run "show running configuration" command
+      ios_command:
+        commands: "show running-configuration"
+      register: running-config
+
+    - name: Copy Running Configuration to Local File System
+      copy:
+        content: "{{ running-config.stdout[0] }}"
+        dest: "./config_backup/{{ inventory_hostname }}_running-config.conf"

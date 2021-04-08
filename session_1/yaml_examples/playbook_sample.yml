@@ -1,0 +1,19 @@
+# Playboks are simply a list of plays
+# Plays are a list of tasks, which contain modules, which accept arguments
+
+
+---
+
+
+- name: Name of Play
+  hosts: targeted hosts from inventory
+  connection: how ansible will connect and push modules to target hosts
+
+  tasks:
+    - name: Name of first task
+      module:
+        arguments:
+
+    - name: Name of second task
+      module:
+        arguments:
