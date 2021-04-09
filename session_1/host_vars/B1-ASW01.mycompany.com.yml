@@ -1,0 +1,22 @@
+# will be applied to the host referenced in the inventory file
+
+host_defaults:
+  hostname: B1-ASW01.mycompany.com
+  boot: c3560-ipservicesk9-mz.122-25.SEC2.bin
+
+host_mgmt_ip: 10.1.10.5 255.255.255.0
+
+host_interfaces:
+  Gi0/1:
+    type: access
+    description: access port
+  Gi0/2:
+    type: access
+    description: access port
+  # other interfaces omitted for brevity
+  Gi0/23:
+    type: trunk
+    description: uplink to DSW
+  Gi0/24:
+    type: trunk
+    description: uplink to DSW

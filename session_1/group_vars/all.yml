@@ -1,0 +1,18 @@
+# these variables are applied to all devices
+
+# service account username and ssh password
+ansible_user: adam
+ansible_password: supersecret
+ansible_python_interpreter: $(which python3)
+
+ntp_servers:
+  - 2.2.2.1
+  - 2.2.2.2
+
+dns_servers:
+  - 8.8.8.8
+  - 8.8.8.4
+
+snmp_contact: Network Engineering 555-555-1234
+snmp_ro: ro1234
+snmp_rw: rw1234

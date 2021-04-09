@@ -1,0 +1,45 @@
+---
+
+# nested dictionary
+# children inherets characteristics of parent
+
+all:
+  children:
+    group_name:
+      hosts:
+        host1: # DNS entries for hosts
+        host2:
+        host3:
+        host4: # we can override DNS with the 'ansible_host' key
+          ansible_host: 10.1.10.1
+
+# example
+
+all:
+  children:
+    ACCESS_SWITCHES:
+      children:
+        BUILDING_1_ACCESS_SWITCHES:
+          hosts:
+            B1-ASW01.mycompany.com:
+            B1-ASW02.mycompany.com:
+            B1-ASW03.mycompany.com:
+            BR1-ASW04.mycompany.com:
+              ansible_host: 10.1.10.1
+        BUILDING_2_ACCESS_SWITCHES:
+          hosts:
+            B2-ASW01.mycompany.com:
+            B2-ASW02.mycompany.com:
+            B2-ASW03.mycompany.com:
+            BR2-ASW01.mycompany.com:
+              ansible_host: 10.1.11.5
+        BUILDING_3_ACCESS_SWITCHES:
+          hosts:
+            B3-ASW[01:03].mycompany.com: # can group devices together
+            B3-ASW04.mycompany.com:
+              ansible_host: 10.1.12.5
+    DATA_CENTER_SWITCHES:
+      children:
+        hosts:
+          DC1-CSW01.mycompany.com:
+          DC1-CSW02.mycompany.com:

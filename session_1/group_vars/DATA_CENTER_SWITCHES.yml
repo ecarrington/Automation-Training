@@ -1,0 +1,5 @@
+# variables applied to all devices in the DATA_CENTER_SWITCHES group
+
+snmp_location: 118 Somestreet Ave Detroit, MI 48226
+ansible_network_os: nxos
+ip_routing: true

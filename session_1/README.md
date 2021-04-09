@@ -63,3 +63,13 @@
 - In Ansible, nearly all YAML files start with a list, and each item in the list is another list of key/value pairs referred to as a dictionary or hash
 - See examples [here](../yaml_examples/)
 - Ansible YAML syntax documentation can be found [here](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html)
+
+##### Inventory
+- Ansible works against multiple managed nodes or hosts at the same time using a list or group called an 'inventory'
+- Once this file is defined, we can use patterns to select hosts or groups we want to run playbooks against
+- Default location for inventory is  /etc/ansible/hosts/ but we can override this in ansible.cfg or via the command line with the '-i' flag
+- We can also pull inventory from different sources and in different formats using 'dynamic inventory'
+- Common formats for inventory files are '.ini' and '.yml'. YAML files allow for more granular control over encryption and variable assignments, and it is recommended to use this format
+- Two default groups: all (all hosts), and ungrouped (hosts that do not have a specific group). Each host will belong to two groups minimum, either all and some other group, or ungrouped and some other group
+- At runtime, ansible will look for variables in the host_vars and group_vars folders and load them into memory for use as needed into the playbook. Precedence: host_vars > group_vars by group > all group_vars
+- Inventory information can be found [here](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html)
