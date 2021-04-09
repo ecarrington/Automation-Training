@@ -2,6 +2,6 @@
 Work Training - Ansible and Python Network Automation
 
 ### Structure
-Each session will have a repository with its own applicable playbooks, scripts, examples, roles, and other automation dependencies. Each folder acts on the inventory file and ansible.cfg file located in the root of this directory. Each folder will also have its own READM pages with useful links and resources, as well as course notes for reference. 
+Each session will have a repository with its own applicable playbooks, scripts, examples, roles, and other automation dependencies. Each folder acts on the inventory file and ansible.cfg file located in the root of this directory. Each folder will also have its own README pages with useful links and resources, as well as course notes for reference. 
 
 
