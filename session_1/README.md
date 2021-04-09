@@ -61,7 +61,7 @@
 - Human-readable data **serialization** (aka not used for markup) language commonly used for configuration files or applications where data is stored or transmitted.
 - Domain-Specific Language of Ansible (DSL). Used to abstract pythonic complexity away from the underlying framework to solve a certain class of problems.
 - In Ansible, nearly all YAML files start with a list, and each item in the list is another list of key/value pairs referred to as a dictionary or hash
-- See examples [here](../yaml_examples/)
+- See examples [here](./yaml_examples/)
 - Ansible YAML syntax documentation can be found [here](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html)
 
 ##### Inventory
