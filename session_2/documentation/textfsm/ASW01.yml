@@ -1,0 +1,77 @@
+-   ACCESS_VLAN: '1'
+    ADMIN_MODE: trunk
+    INTERFACE: Gi0/0
+    MODE: trunk
+    NATIVE_VLAN: '1'
+    SWITCHPORT: Enabled
+    SWITCHPORT_MONITOR: ''
+    SWITCHPORT_NEGOTIATION: 'On'
+    TRUNKING_VLANS:
+    - 10,20
+    VOICE_VLAN: none
+-   ACCESS_VLAN: '20'
+    ADMIN_MODE: static access
+    INTERFACE: Gi0/1
+    MODE: static access
+    NATIVE_VLAN: '1'
+    SWITCHPORT: Enabled
+    SWITCHPORT_MONITOR: ''
+    SWITCHPORT_NEGOTIATION: 'Off'
+    TRUNKING_VLANS:
+    - ALL
+    VOICE_VLAN: none
+-   ACCESS_VLAN: '10'
+    ADMIN_MODE: static access
+    INTERFACE: Gi0/2
+    MODE: static access
+    NATIVE_VLAN: '1'
+    SWITCHPORT: Enabled
+    SWITCHPORT_MONITOR: ''
+    SWITCHPORT_NEGOTIATION: 'Off'
+    TRUNKING_VLANS:
+    - ALL
+    VOICE_VLAN: none
+-   ACCESS_VLAN: '1'
+    ADMIN_MODE: dynamic auto
+    INTERFACE: Gi1/0
+    MODE: static access
+    NATIVE_VLAN: '1'
+    SWITCHPORT: Enabled
+    SWITCHPORT_MONITOR: ''
+    SWITCHPORT_NEGOTIATION: 'On'
+    TRUNKING_VLANS:
+    - ALL
+    VOICE_VLAN: none
+-   ACCESS_VLAN: '1'
+    ADMIN_MODE: dynamic auto
+    INTERFACE: Gi1/1
+    MODE: static access
+    NATIVE_VLAN: '1'
+    SWITCHPORT: Enabled
+    SWITCHPORT_MONITOR: ''
+    SWITCHPORT_NEGOTIATION: 'On'
+    TRUNKING_VLANS:
+    - ALL
+    VOICE_VLAN: none
+-   ACCESS_VLAN: '1'
+    ADMIN_MODE: dynamic auto
+    INTERFACE: Gi1/2
+    MODE: static access
+    NATIVE_VLAN: '1'
+    SWITCHPORT: Enabled
+    SWITCHPORT_MONITOR: ''
+    SWITCHPORT_NEGOTIATION: 'On'
+    TRUNKING_VLANS:
+    - ALL
+    VOICE_VLAN: none
+-   ACCESS_VLAN: '1'
+    ADMIN_MODE: dynamic auto
+    INTERFACE: Gi1/3
+    MODE: static access
+    NATIVE_VLAN: '1'
+    SWITCHPORT: Enabled
+    SWITCHPORT_MONITOR: ''
+    SWITCHPORT_NEGOTIATION: 'On'
+    TRUNKING_VLANS:
+    - ALL
+    VOICE_VLAN: none
