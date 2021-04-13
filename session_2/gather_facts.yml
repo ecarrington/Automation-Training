@@ -1,0 +1,14 @@
+- name: PLAY 1 - Gather Interface Statistics with gather_facts
+  hosts: all
+  connection: network_cli
+
+  tasks:
+    - name: Run show command
+      ios_command: # runs a 'show' command
+        commands: "show interfaces status"
+      register: interfaces
+
+    - name: Copy Running Configuration to Local File System
+      copy:
+        content: "{{ interfaces | to_nice_yaml }}"
+        dest: "./documentation/gather_facts/{{ inventory_hostname }}.yml"
