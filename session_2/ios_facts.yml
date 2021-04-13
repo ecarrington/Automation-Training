@@ -1,0 +1,26 @@
+- name: PLAY 1 - Gather Interface Statistics with gather_facts
+  hosts: all
+  connection: network_cli
+
+  tasks:
+    - name: Gather all facts
+      ios_facts: # runs a 'show' command
+        gather_subset:
+          - 'all'
+      register: all_facts
+
+    - name: Gather only interface facts
+      ios_facts:
+        gather_subset:
+          - 'interfaces'
+      register: interface_facts
+
+    - name: Save all facts
+      copy:
+        content: "{{ all_facts | to_nice_yaml }}"
+        dest: "./documentation/gather_facts/{{ inventory_hostname }}-all.yml"
+
+    - name: Save interface facts
+      copy:
+        content: "{{ interface_facts | to_nice_yaml }}"
+        dest: "./documentation/gather_facts/{{ inventory_hostname }}-all.yml"
