@@ -1,0 +1,127 @@
+ansible_facts:
+    ansible_net_all_ipv4_addresses:
+    - 10.1.4.7
+    ansible_net_all_ipv6_addresses: []
+    ansible_net_api: cliconf
+    ansible_net_filesystems:
+    - 'flash0:'
+    ansible_net_filesystems_info:
+        'flash0:':
+            spacefree_kb: 1982584.0
+            spacetotal_kb: 2092496.0
+    ansible_net_gather_network_resources: []
+    ansible_net_gather_subset:
+    - interfaces
+    - default
+    - hardware
+    ansible_net_hostname: ASW01
+    ansible_net_image: flash0:/vios_l2-adventerprisek9-m
+    ansible_net_interfaces:
+        GigabitEthernet0/0:
+            bandwidth: 1000000
+            description: null
+            duplex: null
+            ipv4: []
+            lineprotocol: null
+            macaddress: 5000.000b.0000
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: iGbE
+        GigabitEthernet0/1:
+            bandwidth: 1000000
+            description: null
+            duplex: null
+            ipv4: []
+            lineprotocol: null
+            macaddress: 5000.000b.0001
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: iGbE
+        GigabitEthernet0/2:
+            bandwidth: 1000000
+            description: null
+            duplex: null
+            ipv4: []
+            lineprotocol: null
+            macaddress: 5000.000b.0002
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: iGbE
+        GigabitEthernet0/3:
+            bandwidth: 1000000
+            description: null
+            duplex: null
+            ipv4:
+            -   address: 10.1.4.7
+                subnet: '24'
+            lineprotocol: null
+            macaddress: 5000.000b.0003
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: GigabitEthernet
+        GigabitEthernet1/0:
+            bandwidth: 1000000
+            description: DELETE ME
+            duplex: null
+            ipv4: []
+            lineprotocol: null
+            macaddress: 5000.000b.0004
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: iGbE
+        GigabitEthernet1/1:
+            bandwidth: 1000000
+            description: null
+            duplex: null
+            ipv4: []
+            lineprotocol: null
+            macaddress: 5000.000b.0005
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: iGbE
+        GigabitEthernet1/2:
+            bandwidth: 1000000
+            description: DELETE ME
+            duplex: null
+            ipv4: []
+            lineprotocol: null
+            macaddress: 5000.000b.0006
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: iGbE
+        GigabitEthernet1/3:
+            bandwidth: 1000000
+            description: null
+            duplex: null
+            ipv4: []
+            lineprotocol: null
+            macaddress: 5000.000b.0007
+            mediatype: unknown media type
+            mtu: 1500
+            operstatus: up
+            type: iGbE
+    ansible_net_iostype: IOS
+    ansible_net_memfree_mb: 464276.48828125
+    ansible_net_memtotal_mb: 561724.375
+    ansible_net_model: IOSv
+    ansible_net_neighbors:
+        GigabitEthernet0/0:
+        -   host: DSW01.adam.home
+            port: GigabitEthernet0/3
+    ansible_net_python_version: 3.6.9
+    ansible_net_serialnum: 9G6RTJTEXI7
+    ansible_net_system: ios
+    ansible_net_version: 15.2(4.0.55)E
+    ansible_network_resources: {}
+changed: false
+failed: false
+warnings:
+- default value for `gather_subset` will be changed to `min` from `!config` v2.11
+    onwards

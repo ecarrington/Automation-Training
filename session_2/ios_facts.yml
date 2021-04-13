@@ -1,4 +1,4 @@
-- name: PLAY 1 - Gather Interface Statistics with gather_facts
+- name: PLAY 1 - Gather Device Statistics with ios_facts
   hosts: all
   connection: network_cli
 
@@ -6,7 +6,7 @@
     - name: Gather all facts
       ios_facts: # runs a 'show' command
         gather_subset:
-          - 'all'
+          - '!config' # omit this because it returns unparsed configuration
       register: all_facts
 
     - name: Gather only interface facts
@@ -23,4 +23,4 @@
     - name: Save interface facts
       copy:
         content: "{{ interface_facts | to_nice_yaml }}"
-        dest: "./documentation/gather_facts/{{ inventory_hostname }}-all.yml"
+        dest: "./documentation/gather_facts/{{ inventory_hostname }}-interfaces.yml"
