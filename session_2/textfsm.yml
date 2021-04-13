@@ -42,5 +42,16 @@
       debug:
         msg: "{{ trunk_interfaces }}"
 
+    - name: Save access interface list to file
+      copy:
+        content: "{{ access_interfaces | to_nice_yaml }}"
+        dest: "./documentation/textfsm/{{ inventory_hostname }}-access.yml"
+
+    - name: Save trunk interface list to file
+      copy:
+        content: "{{ trunk_interfaces | to_nice_yaml }}"
+        dest: "./documentation/textfsm/{{ inventory_hostname }}-trunk.yml"
+
+
 
 ...
