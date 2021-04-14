@@ -1,0 +1,21 @@
+---
+
+  - name: Gather interface statistics on IOS devices
+    hosts: all
+    connection: network_cli
+
+    tasks:
+      - name: Run "show interfaces switchport" show command
+        ios_command:
+          commands:
+            - "show interfaces switchport"
+        register: cli_output
+
+      - name: Debug cli_output from previous show command
+        debug:
+          msg: "{{ cli_output }}"
+
+      - name: Write cli_output to file
+        copy:
+          content: "{{ cli_output }}"
+          dest: "./documentation/ios_command/{{ inventory_hostname }}.txt"
