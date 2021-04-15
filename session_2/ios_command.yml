@@ -3,6 +3,7 @@
   - name: Gather interface statistics on IOS devices
     hosts: all
     connection: network_cli
+    gather_facts: false
 
     tasks:
       - name: Run "show interfaces switchport" show command
@@ -17,5 +18,5 @@
 
       - name: Write cli_output to file
         copy:
-          content: "{{ cli_output }}"
-          dest: "./documentation/ios_command/{{ inventory_hostname }}.txt"
+          content: "{{ cli_output | to_nice_yaml(indent=2) }}" # to_nice_yaml filter helps here, but still is not as good as using dedicated parsers. Output returned as strings :(
+          dest: "./documentation/ios_command/{{ inventory_hostname }}.yml"

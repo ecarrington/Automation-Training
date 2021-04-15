@@ -2,7 +2,7 @@ all:
   children:
     LAB_ASW:
       hosts:
-        QL1-12E-LAB.ASW01-net.rockfin.com:
+        QL1-12E-LAB-ASW01.net.rockfin.com:
         QL1-12E-LAB-ASW02.net.rockfin.com:
         QL1-12E-LAB-ASW03.net.rockfin.com:
     LAB_DSW:

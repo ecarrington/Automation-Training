@@ -27,6 +27,8 @@
     ```
 
 - While we can pull this data into a semi-structured format in some cases, most of the time it will return a blob of raw cli output, which is not fun to try and manipulate programmatically.
+  - In the example above, output that is written to a file will be a large blob of raw CLI text 
+  - Filters such as 'to_nice_yaml' and 'to_nice_json' are simple ways to help clean up formatting, but this is still not as effective as using a dedicated parser
   - Ansible will always return data in a semi-structured format, but what is contained in that semi-structured format may not always be user-friendly
 
 

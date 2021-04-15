@@ -4,6 +4,7 @@
 - name: PLAY 1 - Gather Interface Statistics with TextFSM templates
   hosts: all
   connection: network_cli
+  gather_facts: false
 
   tasks:
     - name: Run show command
@@ -13,19 +14,18 @@
 
     - name: Parse show command output
       set_fact:
-        parsed_interfaces: "{{ cli_output.stdout[0] | parse_cli_textfsm('/home/adam/ntc-templates/templates/cisco_ios_show_interfaces_switchport.textfsm') }}"
+        parsed_interfaces: "{{ cli_output.stdout[0] | parse_cli_textfsm('/mnt/c/users/alicht/ntc-templates/templates/cisco_ios_show_interfaces_switchport.textfsm') }}"
 
-
-#    - name: Save parsed output to file
-#      copy:
-#        content: "{{ parsed_interfaces | to_nice_yaml }}" # convert to yaml format automatically
-#        dest: "./documentation/textfsm/{{ inventory_hostname }}.yml"
+    - name: Write parsed output to file 
+      copy:
+        content: "{{ parsed_interfaces | to_nice_yaml }}"
+        dest: "./documentation/textfsm/{{ inventory_hostname }}-parsed.yml"
 
     - name: Create list of access interfaces
       set_fact:
         access_interfaces: "{{ access_interfaces | default([]) + [item.INTERFACE]  }}"
       with_items: "{{ parsed_interfaces }}"
-      when: item.MODE == 'static access'
+      when: item.ADMIN_MODE == 'static access'
 
     - name: List access interfaces
       debug:
@@ -36,7 +36,7 @@
       set_fact:
         trunk_interfaces: "{{ trunk_interfaces | default([]) + [item.INTERFACE]  }}"
       with_items: "{{ parsed_interfaces }}"
-      when: item.MODE == 'trunk'
+      when: item.ADMIN_MODE == 'trunk'
 
     - name: List trunk interfaces
       debug:
