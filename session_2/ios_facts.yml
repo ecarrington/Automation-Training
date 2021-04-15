@@ -17,10 +17,10 @@
 
     - name: Save all facts
       copy:
-        content: "{{ all_facts | to_nice_yaml }}" # builds a yaml-formatted model
+        content: "{{ all_facts | to_nice_yaml(indent=2) }}" # builds a yaml-formatted model
         dest: "./documentation/gather_facts/{{ inventory_hostname }}-all.yml"
 
     - name: Save interface facts
       copy:
-        content: "{{ interface_facts | to_nice_yaml }}"
+        content: "{{ interface_facts | to_nice_yaml(indent=2 }}"
         dest: "./documentation/gather_facts/{{ inventory_hostname }}-interfaces.yml"
