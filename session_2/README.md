@@ -135,18 +135,18 @@
 
 ##### Vault Examples
 
-**Prompt for vault password**  
+###### Prompt for vault password  
   
   ```console
   ansible-playbook my_playbook.yml --ask-vault-pass
   ```
-**Supply vault password file**
+###### Supply vault password file
   
   ```console
   ansible-playbook my_playbook.yml --vault-password-file /path/to/file.txt
   ```
   
-**Supply vault password file from executable script**
+###### Supply vault password file from executable script
   ```console
   ansible-playbook my_playbook.yml --vault-password-file show_me_the_vault.py
   ```
