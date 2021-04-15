@@ -1,7 +1,7 @@
 ### Session 2: First Playbook, Fact Gathering, and Parsing Data from IOS Devices
 
 #### Relevant Ansible Modules
-- All module documentation can be found in the ![ansible docs(https://docs.ansible.com/ansible/2.9/modules_by_category.html)
+- All module documentation can be found in the ![ansible docs](https://docs.ansible.com/ansible/2.9/modules_by_category.html)
 - In the docs, simply search by keyword (ios, asa, eos, etc.)
 - Often, its easier to simply google for the module in question, such as 'ansible ios configuration'. This usually returns the modules you're looking for.
 
@@ -26,7 +26,9 @@
         msg: "{{ cli_output }}"
     ```
 
-- While we can pull this data into a semi-structured format in some cases, most of the time it will return a blob of raw cli output, which is not fun to try and manipulate programmatically
+- While we can pull this data into a semi-structured format in some cases, most of the time it will return a blob of raw cli output, which is not fun to try and manipulate programmatically.
+  - Ansible will always return data in a semi-structured format, but what is contained in that semi-structured format may not always be user-friendly
+
 
 ##### ios_facts module
 - Native Ansible module that gathers facts about IOS devices
@@ -87,6 +89,7 @@
 #### Inventory
 - Defines a list of hosts we want to target plays against
 - Hierarchical, use group and host variables to keep inventory lean
+- inventory documentation can be found
 
 #### Special Variables
 - Variables well-known to Ansible. They mean something to Ansible and cannot be substituted to mean something else.
@@ -108,9 +111,43 @@
 - Modules often correlate to OS (ios_command for ios devices, nxos_command for nexus, eos_command for Arista EOS)
 
 ##### ansible_host
+- Allows us to override DNS name with IP address in the inventory file. This is known as an inventory alias.
 
 ##### ansible_user
+- The username of the account attempting to connect to and run the task against the target node.
 
 ##### ansible_password
+- The password of the account attempting to connect to rand run the task against the target node
+- Passwords should never be stored in clear-text, and this is especially important when checking credentials into version control. Ansible uses its own built-in mechanism for encrypting variables and files known as **Ansible Vault**
+  - Command line tool that allows us to encrypt a whole file or variable using AES 256 bit encryption keyed with a password
+  - ```console
+  ansible-vault encrypt_string <text to encrypt> --name '<string name of the variable>'
+
+  example:
+  ansible-vault encrypt_string adam --name ansible_user
+  ```
+
+  - Vault-encrypted items are decrypted at job runtime, which means Ansible vault only encrypts 'data at rest'. Once this happens, it is the responsibility of the play and plugin authors to avoid secret disclosure.
+  - If you would prefer to not play roulette with your passwords, consider using 'no_log' to hide this information from logs. This will not stop this information from being displayed if running Ansible in debug mode (avoid this in production whenever possible)
+  - Always test your modules to ensure they are handling data in a way that meets your compliance requirements
+  - We can prompt for and supply a vault password as a command-line argument at runtime (--ask-vault-pass), or reference the value from a static file (--vault-password-file) on the Ansible control node with sufficient permissions (chmod 400), or using executable scripts.
+  - If using a UI like Rundeck or AWX/Ansible Tower, we can also store and pass vault passwords safely using built-in keystores
+  - prompt for vault password  
+    - ```console
+  ansible-playbook my_playbook.yml --ask-vault-pass
+  ```
+  - supply vault password file
+  - ```console
+  ansible-playbook my_playbook.yml --vault-password-file /path/to/file.txt
+  ```
+  - supply vault password file from executable script
+  - ```console
+  ansible-playbook my_playbook.yml --vault-password-file show_me_the_vault.py
+  ```
+- more information on passwords and vaulting can be found
 
 ##### ansible_become_pass
+- This is essentially the enable password in the context of networking
+- Ansible allows us to 'become' different users using the 'become' parameter inside of a task executed against a remote node
+- We may also specify a 'become method' with the 'become_method' variable to instruct ansible to elevate us to enable mode once we log into a device. Most modules cover this for us, but in the event we are not in a AAA environment or we are not privileged to level 15 on an IOS device, these parameters are very useful
+- documentation on 'become' can be found
