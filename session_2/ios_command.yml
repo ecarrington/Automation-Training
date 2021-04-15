@@ -17,5 +17,5 @@
 
       - name: Write cli_output to file
         copy:
-          content: "{{ cli_output }}"
+          content: "{{ cli_output | to_nice_yaml(indent=2) }}"
           dest: "./documentation/ios_command/{{ inventory_hostname }}.txt"
