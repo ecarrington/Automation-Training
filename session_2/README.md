@@ -1,7 +1,7 @@
 ### Session 2: First Playbook, Fact Gathering, and Parsing Data from IOS Devices
 
 #### Relevant Ansible Modules
-- All module documentation can be found in the ![ansible docs](https://docs.ansible.com/ansible/2.9/modules_by_category.html)
+- All module documentation can be found in the [ansible docs](https://docs.ansible.com/ansible/2.9/modules/modules_by_category.html)
 - In the docs, simply search by keyword (ios, asa, eos, etc.)
 - Often, its easier to simply google for the module in question, such as 'ansible ios configuration'. This usually returns the modules you're looking for.
 
@@ -13,7 +13,7 @@
 ##### ios_command module
 - Executes arbitrary commands on IOS devices that do not require privilege escalation
 - Most commonly used for 'show' commands
-- documentation ![here](https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_command_module.html)
+- documentation [here](https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_command_module.html)
 - Most simply, we pass a command to this module, and Ansible will return the raw CLI output. We'd need to debug this output or write it to a file to see what it returns
   - ```console
     - name: Execute 'show interfaces switchport' command on devices
@@ -32,7 +32,7 @@
 
 ##### ios_facts module
 - Native Ansible module that gathers facts about IOS devices
-- documentation ![here](https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_facts_module.html)
+- documentation [here](https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_facts_module.html)
 - Looking at the documentation, return values marked with 'always' will always be returned, along with their data types
 - We don't always want all this information, and we can filter with the 'gather_subset' function, which supports pythonic logic.
   - If we wanted to gather only facts about hardware, we could specify the 'hardware'
@@ -53,9 +53,9 @@
 - Network to Code parsers (TextFSM) and Cisco pyATS/Genie are examples of what we may integrate with Ansible via cli_parse, but there are many others. (NOTE: TextFSM and pyATS parsers require additional configuration on the Ansible control node to function properly)
 - We are not limited to Cisco devices for parsing. Many third parties (including Network to Code parsers) support platforms such as ASA, Arista EOS, Palo Alto, F5, Aruba, etc.  
 - It is also fairly simple to extend the functionality of these parsers if you are familiar with Python or TextFSM. If a parser you need is not available, you can always write it yourself!  
-- Documentation ![here](https://docs.ansible.com/ansible/latest/collections/ansible/netcommon/cli_parse_module.html)
+- Documentation [here](https://docs.ansible.com/ansible/latest/collections/ansible/netcommon/cli_parse_module.html)
 - We can use a combination of show commands with the ios_command module and these parsers to create semi-structured data we can easily manipulate programmatically.
-- My favorite TextFSM parsers can be found ![here](https://github.com/networktocode/ntc-templates)
+- My favorite TextFSM parsers can be found [here](https://github.com/networktocode/ntc-templates)
 - Again, all parsed output will need to be either debugged or written to a file if we need to see it.
 - Sample
 ```console
@@ -89,12 +89,12 @@
 #### Inventory
 - Defines a list of hosts we want to target plays against
 - Hierarchical, use group and host variables to keep inventory lean
-- inventory documentation can be found
+- inventory documentation can be found [here](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html)
 
 #### Special Variables
 - Variables well-known to Ansible. They mean something to Ansible and cannot be substituted to mean something else.
 - The variables below are a type of special variable known as connection variables. These simply dictate specifics on how to execute actions on a particular target.
-- Documentation can be found ![here](https://docs.ansible.com/ansible/latest/reference_aapendices/special_variables.html)
+- Documentation can be found [here](https://docs.ansible.com/ansible/latest/reference_aapendices/special_variables.html)
 
 ##### ansible_connection
 - Connection plugin actually used to execute a task on a target host. For IOS, we commonly use 'network_cli'
@@ -120,10 +120,10 @@
 - The password of the account attempting to connect to rand run the task against the target node
 - Passwords should never be stored in clear-text, and this is especially important when checking credentials into version control. Ansible uses its own built-in mechanism for encrypting variables and files known as **Ansible Vault**
   - Command line tool that allows us to encrypt a whole file or variable using AES 256 bit encryption keyed with a password
-  - ```console
+  ```console
   ansible-vault encrypt_string <text to encrypt> --name '<string name of the variable>'
 
-  example:
+  # example:
   ansible-vault encrypt_string adam --name ansible_user
   ```
 
@@ -133,21 +133,24 @@
   - We can prompt for and supply a vault password as a command-line argument at runtime (--ask-vault-pass), or reference the value from a static file (--vault-password-file) on the Ansible control node with sufficient permissions (chmod 400), or using executable scripts.
   - If using a UI like Rundeck or AWX/Ansible Tower, we can also store and pass vault passwords safely using built-in keystores
   - prompt for vault password  
-    - ```console
+  
+  ```console
   ansible-playbook my_playbook.yml --ask-vault-pass
   ```
   - supply vault password file
-  - ```console
+  
+  ```console
   ansible-playbook my_playbook.yml --vault-password-file /path/to/file.txt
   ```
+  
   - supply vault password file from executable script
-  - ```console
+  ```console
   ansible-playbook my_playbook.yml --vault-password-file show_me_the_vault.py
   ```
-- more information on passwords and vaulting can be found
+- more information on passwords and vaulting can be found [here](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
 ##### ansible_become_pass
 - This is essentially the enable password in the context of networking
 - Ansible allows us to 'become' different users using the 'become' parameter inside of a task executed against a remote node
 - We may also specify a 'become method' with the 'become_method' variable to instruct ansible to elevate us to enable mode once we log into a device. Most modules cover this for us, but in the event we are not in a AAA environment or we are not privileged to level 15 on an IOS device, these parameters are very useful
-- documentation on 'become' can be found
+- documentation on 'become' can be found [here](https://docs.ansible.com/ansible/latest/user_guide/become.html)
