@@ -94,7 +94,7 @@
 #### Special Variables
 - Variables well-known to Ansible. They mean something to Ansible and cannot be substituted to mean something else.
 - The variables below are a type of special variable known as connection variables. These simply dictate specifics on how to execute actions on a particular target.
-- Documentation can be found [here](https://docs.ansible.com/ansible/latest/reference_aapendices/special_variables.html)
+- Documentation can be found [here](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
 
 ##### ansible_connection
 - Connection plugin actually used to execute a task on a target host. For IOS, we commonly use 'network_cli'
