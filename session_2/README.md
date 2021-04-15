@@ -132,22 +132,26 @@
   - Always test your modules to ensure they are handling data in a way that meets your compliance requirements
   - We can prompt for and supply a vault password as a command-line argument at runtime (--ask-vault-pass), or reference the value from a static file (--vault-password-file) on the Ansible control node with sufficient permissions (chmod 400), or using executable scripts.
   - If using a UI like Rundeck or AWX/Ansible Tower, we can also store and pass vault passwords safely using built-in keystores
-  - prompt for vault password  
+
+##### Vault Examples
+
+**Prompt for vault password**  
   
   ```console
   ansible-playbook my_playbook.yml --ask-vault-pass
   ```
-  - supply vault password file
+**Supply vault password file**
   
   ```console
   ansible-playbook my_playbook.yml --vault-password-file /path/to/file.txt
   ```
   
-  - supply vault password file from executable script
+**Supply vault password file from executable script**
   ```console
   ansible-playbook my_playbook.yml --vault-password-file show_me_the_vault.py
   ```
-- more information on passwords and vaulting can be found [here](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
+
+More information on passwords and vaulting can be found [here](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
 ##### ansible_become_pass
 - This is essentially the enable password in the context of networking
