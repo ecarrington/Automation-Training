@@ -4,7 +4,7 @@
 
   tasks:
     - name: Gather all facts
-      ios_facts: # runs a 'show' command
+      ios_facts: 
         gather_subset:
           - '!config' # omit this because it returns unparsed configuration
       register: all_facts
@@ -17,7 +17,7 @@
 
     - name: Save all facts
       copy:
-        content: "{{ all_facts | to_nice_yaml }}"
+        content: "{{ all_facts | to_nice_yaml }}" # builds a yaml-formatted model
         dest: "./documentation/gather_facts/{{ inventory_hostname }}-all.yml"
 
     - name: Save interface facts
