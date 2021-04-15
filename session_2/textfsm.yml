@@ -25,7 +25,7 @@
       set_fact:
         access_interfaces: "{{ access_interfaces | default([]) + [item.INTERFACE]  }}"
       with_items: "{{ parsed_interfaces }}"
-      when: item.MODE == 'static access'
+      when: item.ADMIN_MODE == 'static access'
 
     - name: List access interfaces
       debug:
@@ -36,7 +36,7 @@
       set_fact:
         trunk_interfaces: "{{ trunk_interfaces | default([]) + [item.INTERFACE]  }}"
       with_items: "{{ parsed_interfaces }}"
-      when: item.MODE == 'trunk'
+      when: item.ADMIN_MODE == 'trunk'
 
     - name: List trunk interfaces
       debug:
