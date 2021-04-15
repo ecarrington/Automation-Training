@@ -18,7 +18,7 @@
 
 #    - name: Save parsed output to file
 #      copy:
-#        content: "{{ parsed_interfaces | to_nice_yaml }}" # convert to yaml format automatically
+#        content: "{{ parsed_interfaces | to_nice_yaml }}" # convert to yaml format automatically. Notice how output is returned as all strings rather than dedicated key-value pairs :(
 #        dest: "./documentation/textfsm/{{ inventory_hostname }}.yml"
 
     - name: Create list of access interfaces
