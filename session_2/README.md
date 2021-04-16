@@ -52,7 +52,7 @@
 
 ##### cli_parse module
 - Ansible module that allows us to integrate third-party parsers with Ansible to enhance parsing capability
-- Network to Code parsers (TextFSM) and Cisco pyATS/Genie are examples of what we may integrate with Ansible via cli_parse, but there are many others. (NOTE: TextFSM and pyATS parsers require additional configuration on the Ansible control node to function properly)
+- Network to Code parsers (which use TextFSM, a template-based state machine developed by Google for parsing semi-formatted text such as Ansible CLI output) and Cisco pyATS/Genie are examples of what we may integrate with Ansible via cli_parse, but there are many others. (NOTE: TextFSM and pyATS parsers require additional configuration on the Ansible control node to function properly)
 - We are not limited to Cisco devices for parsing. Many third parties (including Network to Code parsers) support platforms such as ASA, Arista EOS, Palo Alto, F5, Aruba, etc.  
 - It is also fairly simple to extend the functionality of these parsers if you are familiar with Python or TextFSM. If a parser you need is not available, you can always write it yourself!  
 - Documentation [here](https://docs.ansible.com/ansible/latest/collections/ansible/netcommon/cli_parse_module.html)
