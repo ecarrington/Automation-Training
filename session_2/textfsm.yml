@@ -14,7 +14,7 @@
 
     - name: Parse show command output
       set_fact:
-        parsed_interfaces: "{{ cli_output.stdout[0] | parse_cli_textfsm('/mnt/c/users/alicht/ntc-templates/templates/cisco_ios_show_interfaces_switchport.textfsm') }}"
+        parsed_interfaces: "{{ cli_output.stdout[0] | parse_cli_textfsm('./ntc-templates/templates/cisco_ios_show_interfaces_switchport.textfsm') }}"
 
     - name: Write parsed output to file 
       copy:
