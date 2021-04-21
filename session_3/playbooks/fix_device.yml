@@ -19,7 +19,37 @@
           - Current configuration .* # ignore lines in running configuration that can dynamically change, but don't affect device, such as configuration size
       register: diffs
 
-    - name: Fix Device if Needed 
+    - name: Fix Device if Needed - Add Configuration not found in Running Configuration
       ios_config:
-        src: "./templates/snmp_traps.cfg"
+#        src: "./templates/snmp_traps.cfg"
+        src: "./config_backup/{{ today.stdout }}/{{ inventory_hostname }}-backup.cfg"
       when: diffs != ""
+
+    - name: Set Fact - Intended Config(diff.before)
+      set_fact: intended="{{ diffs.diff.before.split('\n') }}"
+      when: diffs.changed == true 
+
+    - name: Set Fact - Running Config(diff.after)
+      set_fact: current="{{ diffs.diff.after.split('\n') }}"
+      when: diffs.changed == true
+
+    - name: Set Fact - toRemove 
+      set_fact: toRemove="{{ intended | difference(current) }}"
+      when: diffs.changed == true 
+
+    - name: Debug toRemove
+      debug:
+        msg: "Configuration items to remove: {{ toRemove }}"
+      when: diffs.changed == true 
+
+    - debug:
+        msg: "No configuration items found to remove"
+      when: diffs.changed == false
+
+    - name: Fix Device if Needed - Remove Configuration Items not found in Intended Configuration
+      ios_config: 
+        lines: 
+          - "no {{ item }}"
+      with_items: "{{ toRemove }}"
+      when: diffs.changed == true and toRemove != "[]"
+    
