@@ -1,0 +1,28 @@
+---
+- name: PLAY 1 - Push single command to devices
+  hosts: all
+  connection: network_cli
+  gather_facts: false
+
+  tasks:
+    - name: Push command to device
+      ios_config:
+        lines:
+          - ntp server 1.1.1.1
+
+    - name: Push command to interface
+      ios_config:
+        lines:
+          - description I AM A PORT # child commands ran under parent
+        parents:
+          - interface GigabitEthernet1/0/12 # denotes the parent subsection
+
+#  We can also run a loop to issue commands to more than one desired interface
+    - name: Push command to more than one interface
+      ios_config:
+        lines:
+          - description I AM A PORT
+        parents: '{{ item }}'
+      with_items:
+        - GigabitEthernet1/0/12
+        - GigabitEthernet1/0/13

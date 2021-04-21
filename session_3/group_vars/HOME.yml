@@ -1,0 +1,4 @@
+ansible_network_os: ios
+ansible_user: adam
+ansible_password: cisco
+ansible_become_pass: cisco # enable password essentially
