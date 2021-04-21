@@ -1,0 +1,11 @@
+---
+- name: PLAY 1 - Run Commands from a File
+  hosts: all
+  connection: network_cli
+  gather_facts: false
+
+  tasks:
+    - name: Run commands from a file
+      ios_config:
+        src: '../templates/snmp_traps.cfg'
+        save_when: changed # will only save configuration if Ansible reports 'changed'

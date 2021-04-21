@@ -1,0 +1,28 @@
+---
+- name: PLAY 1 - Apply Configuration from Parsed Output
+  hosts: all
+  connection: network_cli
+  gather_facts: false
+
+  tasks:
+    - name: Gather Trunk Interfaces  
+      become: yes 
+      become_method: enable 
+      ios_command:
+        commands: 
+          - 'show interfaces status | include trunk|Vlan'
+      register: cli_output_trunk 
+
+    - name: Convert trunk output to list 
+      set_fact:
+        trunks: "{{ cli_output_trunk.stdout[0] | parse_cli_textfsm('../../ntc-templates/templates/cisco_ios_show_interfaces_status.textfsm') | map(attribute='PORT') | sort | list }}"
+
+    - name: Add trunk-specific commands to trunk ports 
+      become: yes 
+      become_method: enable
+      ios_config:
+        lines:
+          - 'description I AM A TRUNK PORT!!!'
+        parents: "interface {{ item }}"
+      with_items: "{{ trunks }}"
+      when: trunks != []

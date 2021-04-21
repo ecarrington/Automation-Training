@@ -1,0 +1,22 @@
+---
+- name: PLAY 1 - Save Configuration
+  hosts: all
+  connection: network_cli
+  gather_facts: false
+
+  tasks:
+    - name: Copy Running Configuration to Startup
+      ios_config:
+        save_when: always # Always saves running configuration to startup regardless of whether Ansible modifies the configuration
+
+    - name: Get localhost date 
+      shell: "date +%Y-%m-%d"
+      register: today
+      run_once: true
+
+    - name: Copy Running Configuration to Ansible Control Node
+      ios_config:
+        backup: yes 
+        backup_options:
+          dir_path: "./config_backup/{{ today.stdout }}"
+          filename: "{{ inventory_hostname }}-backup.cfg"

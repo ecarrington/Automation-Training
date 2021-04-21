@@ -1,0 +1,22 @@
+---
+- name: PLAY 1 - Back Up Configuration with Show Command
+  hosts: all
+  connection: network_cli
+  gather_facts: false
+
+  tasks:
+
+    - name: Get localhost date 
+      shell: "date +%Y-%m-%d"
+      register: today
+      run_once: true
+
+    - name: Push command to device
+      ios_command:
+        commands: "show run"
+      register: running_configuration
+
+    - name: Save Running Configuration to Ansible Control Node
+      copy:
+        content: "{{ running_configuration.stdout[0] }}"
+        dest: "./config_backup/{{ today.stdout }}/{{ inventory_hostname }}-show-run.cfg"

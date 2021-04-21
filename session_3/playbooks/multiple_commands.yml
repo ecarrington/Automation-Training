@@ -15,11 +15,11 @@
     - name: Push command to interface
       ios_config:
         lines:
-          - description I AM A PORT # child commands ran under parent
+          - description I AM AN ACCESS PORT # child commands ran under parent
           - switchport mode access
-          - switchport access vlan 79
-      parents:
-        - interface GigabitEthernet1/0 # denotes the parent subsection
+          - switchport access vlan 200
+        parents:
+          - interface GigabitEthernet0/28 # denotes the parent subsection
 
 #  We can also run a loop to issue commands to more than one desired interface
     - name: Push commands to more than one interface
@@ -29,5 +29,5 @@
           - ip dhcp snooping trust
         parents: '{{ item }}'
       with_items:
-        - GigabitEthernet1/1
-        - GigabitEthernet1/2
+        - interface GigabitEthernet0/29
+        - interface GigabitEthernet0/30
