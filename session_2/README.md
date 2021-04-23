@@ -134,6 +134,16 @@
   - Always test your modules to ensure they are handling data in a way that meets your compliance requirements
   - We can prompt for and supply a vault password as a command-line argument at runtime (--ask-vault-pass), or reference the value from a static file (--vault-password-file) on the Ansible control node with sufficient permissions (chmod 400), or using executable scripts.
   - If using a UI like Rundeck or AWX/Ansible Tower, we can also store and pass vault passwords safely using built-in keystores
+  - Decrypting strings can be tricky...Echo the string, then pass the echoed result into the Ansible Vault command line tool, then echo the result, which will be the encrypted string after you enter the vault password as prompted.
+  ```console
+echo '$ANSIBLE_VAULT;1.1;AES256
+63376238383533356262303262623235616166646437306330366436393466623832323964616336
+3535626432316631316439616136373438336439613837610a363330333335333638383935316165
+66656336313834386639363931353630323737613762323331313261313337353333613430376233
+6639633833343935380a316437326335393230356661316335663138663564633661646633616530
+34396237663565333463633238643830316431306637353164376230353261653939' |
+ansible-vault decrypt && echo
+```
 
 ##### Vault Examples
 
