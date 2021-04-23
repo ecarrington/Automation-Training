@@ -25,6 +25,14 @@
         src: "./config_backup/{{ today.stdout }}/{{ inventory_hostname }}-backup.cfg"
       when: diffs != ""
 
+    - name: Generate diff - Pass 2 - Intended vs Running
+      ios_config:
+        diff_against: intended 
+        intended_config: "{{ lookup ('file', './config_backup/{{ today.stdout }}/{{ inventory_hostname }}-backup.cfg') }}"
+        diff_ignore_lines:
+          - Current configuration .* # ignore lines in running configuration that can dynamically change, but don't affect device, such as configuration size
+      register: diffs
+
     - name: Set Fact - Intended Config(diff.before)
       set_fact: intended="{{ diffs.diff.before.split('\n') }}"
       when: diffs.changed == true 
