@@ -1,0 +1,11 @@
+{# eos - NTP Server #}
+{% if all_ntp_servers is defined and all_ntp_servers is not none %}
+!
+{%     for host in all_ntp_servers %}
+{%         if all_ntp_servers[host].prefer is defined and all_ntp_servers[host].prefer == true %}
+ntp server {{ host }} prefer
+{%         else %}
+ntp server {{ host }}
+{%         endif %}
+{%     endfor %}
+{% endif %}
