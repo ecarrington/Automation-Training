@@ -1,0 +1,16 @@
+host_role: access # access, distribution, or core
+host_platform_type: 16.12.4
+host_device_type: Catalyst 9K # optional. For documentation only.
+host_smart_licensing_enabled: true
+host_snmp:
+  location: 123 Sunnside Drive, Tampa, Florida 11111
+
+
+host_management_interfaces:
+  Vlan204:
+    ip_address: 10.0.4.13
+    subnet_mask: 255.255.255.0
+
+host_default_gateway: 10.0.4.254
+
+host_ip_routing: false
