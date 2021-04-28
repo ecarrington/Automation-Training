@@ -43,3 +43,194 @@ all_syslog:
     udp_port:
   10.9.103.125:
     udp_port:
+    
+# Allow Radius Change of Authority - Typically used for ISE. Calls COA template when true
+all_coa: true
+
+# AAA server group Configuration
+all_aaa_server_groups:
+  - type: radius
+    name: ISE
+    servers:
+      - ISE1
+      - ISE2
+
+all_aaa_tacacs_servers:
+  hosts:
+    - name: TACACS1
+      ipv4_address: 10.2.122.200
+    - name: TACACS2
+      ipv4_address: 10.9.122.200
+  key: tacacstestkey1
+
+# RADIUS configuration
+all_aaa_radius_servers:
+  hosts:
+    - name: ISE1
+      ipv4_address: 10.2.18.16
+    - name: ISE2
+      ipv4_address: 10.9.122.200
+  ports:
+    auth: 1812
+    acct: 1813
+  timeout: 2
+  retransmit: 3
+  key: 1SE1SEBABY
+  attributes:
+    - 6 on-for-login-auth
+    - 8 include-in-access-req
+    - 25 access-request include
+    - dead-criteria time 30 tries 3
+
+
+# TACACS Configuration
+all_aaa_new_model:
+  enabled: false
+
+all_aaa_accounting:
+  exec:
+    default: start-stop
+  commands:
+    - '0'
+    - '15'
+  group: tacacs+
+
+# options, local, enable, or other aaa grouip
+all_aaa_authentication:
+  login:
+    default: enable
+  enable:
+    default: enable
+  group: tacacs+
+
+all_aaa_authorization:
+  exec:
+    default: default
+  commands:
+    - '0'
+    - '15'
+  group: tacacs+
+
+all_authentication_critical_recovery_delay: 1000
+
+# may possibly be unique per building and may have to go into a dedicated <building_name>_vars.yml file
+all_qos_input_policy: AutoQos-4.0-Trust-Dscp-Input-Policy
+
+all_qos_output_policy: AutoQos-4.0-Trust-Dscp-Output-Policy
+
+all_mgmt_vlan: 401
+all_user_vlan: 200
+all_voice_vlan: 201
+
+all_snmp:
+  hosts:
+    - 10.0.2.8
+    - 10.0.2.9
+  readonly_community: superreader
+  readwrite_community: superwriter
+  contact: Network Engineering, ext. 1234
+  traps:
+    - snmp authentication linkdown linkup coldstart warmstart
+    - flowmon
+    - call-home message-send-fail server-fail # not supported in IOSvL2
+    - tty
+    - ospf state-change
+    - ospf errors
+    - ospf retransmit
+    - ospf lsa
+    - ospf cisco-specific state-change nssa-trans-change
+    - ospf cisco-specific state-change shamlink interface
+    - ospf cisco-specific state-change shamlink neighbor
+    - ospf cisco-specific errors
+    - ospf cisco-specific retransmit
+    - ospf cisco-specific lsa
+    - eigrp
+    - auth-framework sec-violation
+    - vtp
+    - vlancreate
+    - vlandelete
+    - port-security
+    - license
+    - cpu threshold
+    - memory bufferpeak
+    - stackwise
+    - fru-ctrl
+    - flash insertion
+    - flash removal
+    - power-ethernet group 1 threshold 80
+    - power-ethernet police
+    - entity
+    - envmon fan shutdown supply temperature status
+    - cef resource-failure peer-state-change peer-fib-state-change inconsistency
+    - ipsla
+    - config-copy
+    - config
+    - config-ctid
+    - event-manager
+    - hsrp
+    - ipmulticast
+    - pim neighbor-change rp-mapping-change invalid-pim-message
+    - bridge newroot topologychange
+    - stpx inconsistency root-inconsistency loop-inconsistency
+    - syslog
+    - vlan-membership
+    - errdisable
+    - rf
+    - transceiver all
+    - bulkstat collection transfer
+    - mac-notification change move threshold
+    - vrfmib vrf-up vrf-down vnet-trunk-up vnet-trunk-down
+
+all_access_edge_vlans:
+  200:
+    name: user_data
+    state: active
+    shutdown: false
+  201:
+    name: user_voice
+    state: active
+    shutdown: false
+  202:
+    name: rock_equities
+    state: active
+    shutdown: false
+  203:
+    name: training
+    state: active
+    shutdown: false
+  204:
+    name: network_devices
+    state: active
+    shutdown: false
+  205:
+    name: tech_ops
+    state: active
+    shutdown: false
+  206:
+    name: dset
+    state: active
+    shutdown: false
+  207:
+    name: web_team
+    state: active
+    shutdown: false
+  208:
+    name: security_cameras
+    state: active
+    shutdown: false
+  209:
+    name: nac_auth_vlan
+    state: active
+    shutdown: false
+  900:
+    name: internet_only
+    state: active
+    shutdown: false
+  999:
+    name: unused
+    state: active
+    shutdown: true
+  400:
+    name: management
+    state: active
+    shutdown: false
