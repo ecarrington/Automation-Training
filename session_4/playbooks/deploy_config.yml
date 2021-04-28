@@ -1,0 +1,41 @@
+# ansible-playbook deploy_config.yml --tags build, deploy
+# Tag deploy generates and deploys. Tag build only builds config
+# Each task has a dedicated template to render a piece of configuration
+# Each piece of configuration is dumped to temp folder, and then assembled into the final configuration
+
+---
+- name: PLAY 1 - GENERATE DEVICE CONFIGURATION
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - name: Generate Base Configuration
+      tags: build,deploy
+
+    - name: Generate VLAN Configuration
+      tags: build,deploy
+
+    - name: Generate Interface Configuration
+      tags: build,deploy
+
+    - name: Generate NTP Configuration
+      tags: build,deploy
+
+    - name: Generate Syslog Configuration
+      tags: build,deploy
+
+    - name : Generate SNMP Configuration
+      tags: build,deploy
+
+    - name: Generate RADIUS Global Configuration
+      tags: build,deploy
+
+    - name: Generate TACACS Global Configuraiton
+      tags: build,deploy
+
+    - name: Assemble configuration snippets into intended configuration
+      tags: build,deploy
+
+    - name: Deploy intended configuration to device
+      tags: deploy
