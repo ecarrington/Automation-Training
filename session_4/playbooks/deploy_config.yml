@@ -10,32 +10,64 @@
   gather_facts: no
 
   tasks:
-    - name: Generate Base Configuration
-      tags: build,deploy
-
     - name: Generate VLAN Configuration
+      template:
+        src: ../templates/vlans.j2
+        dest: ../temp/{{ inventory_hostname }}/vlans.cfg
+      delegate_to: localhost
       tags: build,deploy
 
     - name: Generate Interface Configuration
+      template:
+        src: ../templates/ethernet-interfaces.j2
+        dest: ../temp/{{ inventory_hostname }}/ethernet-interfaces.cfg
+      delegate_to: localhost
       tags: build,deploy
 
     - name: Generate NTP Configuration
+      template:
+        src: ../templates/ntp.j2
+        dest: ../temp/{{ inventory_hostname }}/ntp.cfg
+      delegate_to: localhost
       tags: build,deploy
 
     - name: Generate Syslog Configuration
+      template:
+        src: ../templates/syslog.j2
+        dest: ../temp/{{ inventory_hostname }}/syslog.cfg
+      delegate_to: localhost
       tags: build,deploy
 
     - name : Generate SNMP Configuration
+      template:
+        src: ../templates/snmp.j2
+        dest: ../temp/{{ inventory_hostname }}/snmp.cfg
+      delegate_to: localhost
       tags: build,deploy
 
-    - name: Generate RADIUS Global Configuration
+    - name: Generate RADIUS Server Configuration
+      template:
+        src: ../templates/radius-servers.j2
+        dest: ../temp/{{ inventory_hostname }}/tacacs-servers.cfg
+      delegate_to: localhost
       tags: build,deploy
 
-    - name: Generate TACACS Global Configuraiton
+    - name: Generate TACACS Server Configuration
+      template:
+        src: ../templates/tacacs-servers.j2
+        dest: ../temp/{{ inventory_hostname }}/tacacs-servers.cfg
+      delegate_to: localhost
       tags: build,deploy
 
     - name: Assemble configuration snippets into intended configuration
+      template:
+        src: ../templates/intended_config.j2
+        dest: ../intended_configs/{{ inventory_hostname }}.cfg
+      delegate_to: localhost
       tags: build,deploy
 
     - name: Deploy intended configuration to device
+      ios_config:
+        src: ../intended_configs/{{ inventory_hostname }}.cfg
+        save_when: changed
       tags: deploy
