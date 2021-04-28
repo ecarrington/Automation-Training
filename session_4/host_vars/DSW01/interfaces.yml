@@ -1,0 +1,61 @@
+host_ethernet_interfaces:
+  GigabitEthernet0/0:
+    type: trunk
+    description: TRUNK TO ASW1
+    dot1x: false
+    allowed_vlans: 200,201,202,203,204,205,206,207,208,209,900,999
+  GigabitEthernet0/1:
+    type: trunk
+    description: TRUNK TO ASW2
+    dot1x: false
+    allowed_vlans: 200,201,202,203,204,205,206,207,208,209,900,999
+  GigabitEthernet0/2:
+    type: trunk
+    description: TRUNK TO ASW3
+    dot1x: false
+    allowed_vlans: 200,201,202,203,204,205,206,207,208,209,900,999
+  GigabitEthernet0/3:
+    type: trunk
+    description: TRUNK TO ASW4
+    dot1x: false
+    allowed_vlans: 200,201,202,203,204,205,206,207,208,209,900,999
+  GigabitEthernet1/0:
+    type: trunk
+    description: Port-channel member to DSW
+    dot1x: false
+    allowed_vlans: 200,201,202,203,204,205,206,207,208,209,900,999
+    port_channel: 1
+    port_channel_mode: lacp
+  GigabitEthernet1/1:
+    type: trunk
+    description: Port-channel member to DSW
+    dot1x: false
+    allowed_vlans: 200,201,202,203,204,205,206,207,208,209,900,999
+    port_channel: 1
+    port_channel_mode: lacp
+  GigabitEthernet1/2:
+    type: l3
+    description: routed
+    dot1x: false
+    ip_address: 10.0.0.40
+    subnet_mask: 255.255.255.254
+    # simply delete below if not using a routing protocol
+    routing_protocol:
+      ospf:
+        process_id: 1
+        area: 2
+        type: point-to-point
+    # simply delete below if not using multicast
+    pim: sparse-mode
+  GigabitEthernet1/3:
+    type: l3
+    description: TO CSW2
+    dot1x: false
+    ip_address: 10.0.0.42
+    subnet_mask: 255.255.255.254
+    routing_protocol:
+      ospf:
+        process_id: 1
+        area: 2
+        type: point-to-point
+    pim: sparse-mode
