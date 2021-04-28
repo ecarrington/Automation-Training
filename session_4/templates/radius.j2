@@ -1,0 +1,16 @@
+{% if all_aaa_radius_servers is defined and all_aaa_radius_servers is not none and all_aaa_new_model.enabled == true %}
+!
+{%     for server in all_aaa_radius_servers.hosts %}
+radius server {{ server['name'] }}
+ address ipv4 {{ server['ipv4_address'] }} auth-port {{ all_aaa_radius_servers.ports.auth }} acct-port {{ all_aaa_radius_servers.ports.acct }}
+ timeout {{ all_aaa_radius_servers.timeout }}
+ retransmit {{ all_aaa_radius_servers.retransmit }}
+ pac key 7 {{ all_aaa_radius_servers.key }}
+!
+{%    endfor %}
+{%    if all_aaa_radius_servers.attributes is defined and all_radius_servers.attributes is not none %}
+{%        for attribute in all_aaa_radius_servers.attributes %}
+radius-server attribute {{ attribute }}
+{%        endfor %}
+{%    endif %}
+{% endif %}
