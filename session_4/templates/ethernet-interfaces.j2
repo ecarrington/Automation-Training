@@ -1,0 +1,167 @@
+{# IOS - Ethernet Interfaces #}
+{% if host_ethernet_interfaces is defined and host_ethernet_interfaces is not none %}
+{%     for interface in host_ethernet_interfaces %}
+!
+interface {{ interface }}
+{%         if host_ethernet_interfaces[interface].type == 'edge' or host_ethernet_interfaces[interface].type == 'ap'%}
+ description {{ host_ethernet_interfaces[interface].description }}
+ switchport mode access
+{%             if host_ethernet_interfaces[interface].access_vlan is defined and host_ethernet_interfaces[interface].access_vlan is not none%}
+ switchport access vlan {{ host_ethernet_interfaces[interface].access_vlan }}
+{%             else %}
+ switchport access vlan {{ access_edge_user_vlan }}
+{%             endif %}
+{%             if host_ethernet_interface[interface].voice_vlan is defined and host_ethernet_interfaces[interface].voice_vlan is not none %}
+ switchport voice vlan {{ access_edge_voice_vlan }}
+{%             endif %}
+{%             if host_ethernet_interfaces[interface].dot1x is defined and host_ethernet_interfaces[interface].dot1x == true %}
+ authentication event action next-method
+ authentication event server dead action authorize vlan {{ access_edge_dot1x_authorize_vlan }}
+ authentication event server dead action authorize voice
+ authentication event server alive action reinitialize
+ authentication host-mode multi-auth
+ authentication open
+ authentication order dot1x mab
+ authentication priority dot1x mab
+ authentication port-control auto
+ authentication periodic
+ authentication timer reauthenticate server
+ authentication violation restrict
+ mab
+ dot1x pae authenticator
+ dotx timeout tx-period 10
+{%             endif %}
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ auto qos trust dscp
+ no mdix auto
+ spanning-tree portfast
+ spanning-tree guard root
+{%             if access_edge_qos_input_policy is defined and access_edge_qos_input_policy is not none %}
+ service-policy input {{ access_edge_qos_input_policy }}
+{%             endif %}
+{%             if access_edge_qos_output_policy is defined and access_edge_qos_output_policy is not none %}
+ service-policy output {{ access_edge_qos_output_policy }}
+{%             endif %}
+{%             if host_ethernet_interfaces[interface].dhcp_snooping_trust is defined and host_ethernet_interfaces[interface].dhcp_snooping_trust == true %}
+ ip dhcp snooping trust
+{%             endif %}
+{%             if host_ethernet_interfaces[interface].shutdown is defined and host_ethernet_interfaces[interface].shutdown == true %}
+ shutdown
+{%             endif %}
+{%         elif host_ethernet_interfaces[interface].type == 'trunk' %}
+ description link to {{ ansible_facts.net_neighbors[interface].value[0] | default('Trunk interface') }}
+{%             if host_platform_type is search('^12\.') %}
+ switchport trunk encapsulation dot1q
+{%             endif %}
+ switchport mode trunk
+ auto qos trust dscp
+{%             if access_edge_qos_input_policy is defined and access_edge_qos_input_policy is not none %}
+ service-policy input {{ access_edge_qos_input_policy }}
+{%             endif %}
+{%             if access_edge_qos_output_policy is defined and acess_edge_qos_output_policy is not none %}
+ service-policy output {{ access_edge_qos_output_policy }}
+{%             endif %}
+{%             if host_ethernet_interfaces[interface].allowed_vlans is defined and host_ethernet_interfaces[interface].allowed_vlans is not none %}
+ switchport trunk allowed vlan {{ host_ethernet_interfaces[interface].allowed_vlans }}
+{%             endif %}
+{%             if host_ethernet_interfaces[interface].dhcp_snooping_trust is defined and host_ethernet_interfaces[interface].dhcp_snooping_trust == true %}
+ ip dhcp snooping trust
+{%             endif %}
+{%             if host_ethernet_interfaces[interface].port_channel is defined and host_ethernet_interfaces[interface].port_channel is not none %}
+{%                 if host_ethernet_interfaces[interface].port_channel_mode is defined and host_ethernet_interfaces[interface].port_channel_mode == 'lacp' %}
+ channel-group {{ host_ethernet_interfaces[interface].port_channel }} mode active
+{%                 elif host_ethernet_interfaces[interface].port_channel.mode is defined and host_ethernet_interfaces[interface].port_channel.mode == 'pagp' %}
+ channel-group {{ host_ethernet_interfaces[interface].port_channel }} mode desirable
+{%                 else %}
+ channel-group {{ host_ethernet_interface[interface].port_channel }} mode on
+{%                 endif %}
+{%             endif %}
+{%             if host_ethernet_interfaces[interface].shutdown is defined and host_ethernet_interfaces[interface].shutdown == true %}
+ shutdown
+{%             endif %}
+{%         elif host_ethernet_interfaces[interface].type == 'wap' %}
+{# in our environment, this config appears to be the same as an access port. included a condition above. Split this off to here if needed in future #}
+{%         elif host_ethernet_interfaces[interface].type == 'camera' %}
+ description {{ host_ethernet_interfaces[interface].description }}
+ switchport mode access
+ switchport access vlan {{ access_edge_video_vlan }}
+ srr-queue bandwidth share 10 10 60 20
+ priority-queue out
+ mls qos trust dscp
+ no mdix auto
+ spanning-tree portfast
+ spanning-tree guard root
+{%             if host_ethernet_interfaces[interface].shutdown is defined and host_ethernet_interfaces[interface].shutdown == true %}
+ shutdown
+{%             endif %}
+{%         elif host_ethernet_interfaces[interface].type == 'unused' %}
+ description {{ host_ethernet_interfaces[interface].description }}
+ switchport mode access
+ switchport access vlan {{ all_default_vlan }}
+ no cdp enable
+ shutdown
+{%         elif host_ethernet_interfaces[interface].type == 'l3' %}
+ description {{ host_ethernet_interfaces[interface].description }}
+ no switchport
+ auto qos trust dscp
+{%            if host_ethernet_interfaces[interface].ip_address is defined and host_ethernet_interfaces[interface].ip_address is not none %}
+{%                 if host_ethernet_interfaces[interface].subnet_mask is defined and host_ethernet_interfaces[interface].subnet_mask is not none %}
+ ip address {{ host_ethernet_interfaces[interface].ip_address }} {{ host_ethernet_interfaces[interface].subnet_mask }}
+{%                 endif %}
+{%            endif %}
+{%            if host_ethernet_interfaces[interface].routing_protocol is defined and host_ethernet_interfaces[interface].routing_protocol is not none %}
+{%                if host_ethernet_interfaces[interface].routing_protocol.keys() is defined and host_ethernet_interfaces[interface].routing_protocol.keys() is not none %}
+{%                    if host_ethernet_interfaces[interface].routing_protocol.keys() is search('ospf') %}
+{%                        if host_ethernet_interfaces[interface].routing_protocol.ospf.process_id is defined and host_ethernet_interfaces[interface].routing_protocol.ospf.process_id is not none and host_ethernet_interfaces[interface].routing_protocol.ospf.area is defined and host_ethernet_interfaces[interface].routing_protocol.ospf.area is not none %}
+ ip ospf {{ host_ethernet_interfaces[interface].routing_protocol.ospf.process_id }} area {{ host_ethernet_interfaces[interface].routing_protocol.ospf.area }}
+{%                            if host_ethernet_interfaces[interface].routing_protocol.ospf.type is defined and host_ethernet_interfaces[interface].routing_protocol.ospf.type is not none %}
+ ip ospf network {{ host_ethernet_interfaces[interface].routing_protocol.ospf.type }}
+{%                            endif %}
+{%                        endif %}
+{%                    endif %}
+{%                endif %}
+{%            endif %}
+{%            if host_ethernet_interfaces[interface].pim is defined and host_ethernet_interfaces[interface].pim is not none %}
+ ip pim {{ host_ethernet_interfaces[interface].pim }}
+{%            endif %}
+{%            if host_ethernet_interfaces[interface].ip_helpers is defined and host_ethernet_interfaces[interface].ip_helpers is not none %}
+{%                for ip_helper in host_ethernet_interfaces[interface].ip_helpers %}
+ ip helper-address {{ ip_helper }}
+{%                endfor %}
+{%            endif %}
+{%            if host_ethernet_interfaces[interface].access_group_in is defined and host_ethernet_interfaces[interface].access_group_in is not none %}
+ ip access-group {{ host_ethernet_interfaces[interface].access_group_in }} in
+{%            endif %}
+{%            if host_ethernet_interfaces[interface].access_group_out is defined and host_ethernet_interfaces[interface].access_group_out is not none %}
+ ip access-group {{ host_ethernet_interfaces[interface].access_group_out }} out
+{%            endif %}
+{%            if host_ethernet_interfaces[interface].port_channel is defined and host_ethernet_interfaces[interface].port_channel is not none %}
+{%                 if host_ethernet_interfaces[interface].port_channel_mode is defined and host_ethernet_interfaces[interface].port_channel_mode == 'lacp' %}
+ channel-group {{ host_ethernet_interfaces[interface].port_channel }} mode active
+{%                 elif host_ethernet_interfaces[interface].port_channel.mode is defined and host_ethernet_interfaces[interface].port_channel.mode == 'pagp' %}
+ channel-group {{ host_ethernet_interfaces[interface].port_channel }} mode desirable
+{%                 else %}
+ channel-group {{ host_ethernet_interface[interface].port_channel }} mode on
+{%                 endif %}
+{%            endif %}
+{%            if host_ethernet_interfaces[interface].shutdown is defined and host_ethernet_interfaces[interface].shutdown == true %}
+ shutdown
+{%            endif %}
+{%         elif host_ethernet_interfaces[interface].type == 'management' %}
+{%             for vrf in all_vrfs %}
+ vrf forwarding {{ vrf if all_vrfs[vrf].management == true }}
+ no ip address
+{%             endfor %}
+{%             if host_ethernet_interfaces[interface].shutdown is defined and host_ethernet_interfaces[interface].shutdown == true %}
+ shutdown
+{%             endif %}
+{%         else %}
+ description {{ host_ethernet_interfaces[interface].description }}
+ switchport mode access
+ switchport access vlan {{ all_default_vlan }}
+ no cdp enable
+ shutdown
+{%         endif %}
+{%     endfor %}
+{% endif %}
