@@ -150,7 +150,7 @@ This is not an exhaustive list, but these are the data types we will most common
 >>> desired_vlans = set([101,201,301,401,500,600])
 >>> vlans_to_add = desired_vlans - intended_vlans # want - have
 >>> vlans_to_remove = intended_vlans - desired_vlans # have - want
-print(vlans_to_add)
+>>> print(vlans_to_add)
 >>> {201, 401, 301, 101}
 >>> print(vlans_to_remove)
 >>> {200, 100, 400, 300}
