@@ -65,6 +65,9 @@ interface {{ interface }}
 {%             if host_ethernet_interfaces[interface].allowed_vlans is defined and host_ethernet_interfaces[interface].allowed_vlans is not none %}
  switchport trunk allowed vlan {{ host_ethernet_interfaces[interface].allowed_vlans }}
 {%             endif %}
+{%             if host_ethernet_interfaces[interface].native_vlan is defined and host_ethernet_interfaces[interface].native_vlan is not none %}
+ switchport trunk native vlan {{ host_ethernet_itnerfaces[interface].native_vlan }}
+{%             endif %}
 {%             if host_ethernet_interfaces[interface].dhcp_snooping_trust is defined and host_ethernet_interfaces[interface].dhcp_snooping_trust == true %}
  ip dhcp snooping trust
 {%             endif %}

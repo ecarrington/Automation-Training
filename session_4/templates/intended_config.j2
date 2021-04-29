@@ -11,6 +11,8 @@ hostname {{ inventory_hostname }}
 {% include 'tacacs-servers.j2' %}
 {# VLAN Configuration #}
 {% include 'vlans.j2' %}
+{# VLAN Interfaces #}
+{% include 'vlan-interfaces.j2' %}
 {# Interface Configuration #}
 {% include 'ethernet-interfaces.j2' %}
 {# SNMP Configuration #}

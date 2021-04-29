@@ -40,6 +40,13 @@
       delegate_to: localhost
       tags: build,deploy
 
+    - name: Generate VLAN Interface (SVI) Configuration
+      template:
+        src: ../templates/vlan-interfaces.j2
+        dest: ../temp/{{ inventory_hostname }}/vlan-interfaces.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
     - name: Generate Interface Configuration
       template:
         src: ../templates/ethernet-interfaces.j2

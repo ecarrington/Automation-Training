@@ -128,7 +128,7 @@ all_snmp:
     - 10.0.2.9
   readonly_community: superreader
   readwrite_community: superwriter
-  contact: Network Engineering, ext. 1234
+  contact: Network Engineering, ext. 37373
   traps:
     - snmp authentication linkdown linkup coldstart warmstart
     - flowmon
