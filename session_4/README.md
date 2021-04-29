@@ -25,10 +25,25 @@
 
 #### Python Data Types 
 
+This is not an exhaustive list, but these are the data types we will most commonly work with on our automation journey. 
+
 - **Primitive: Explicitly pre-defined and supported by the programming language** 
   - integer
+    - Whole numbers (both positive and negative)
+    - Immutable
+```console
+>>> access_vlan = 200
+```
   - boolean
+    - It is, or it is not
+    - Represents 'truthiness'
+    - Immutable
+ ```console
+ >>> shutdown = true
+ ```
   - string
+    - Words 
+    - Immutable
     - Surrounded by a single or double quote
     - List of bytes representing unicode characters 
     - Python does not support a 'character' type. Thus, any single characters in Python are simply strings with a length of 1
@@ -38,11 +53,29 @@
  >>> print(a[1])
  >>> e
 ```
-- float 
+- float
+  - Non-whole number (decimal)
+  - Divides integer into fractional parts 
+```console
+>>> interface_bandwidth = 1000.00
+```
 
-- **Non-Primitive: Data types derived from the primitive data types that offer increased functionality
+- **Non-Primitive: Data types derived from the primitive data types that offer increased functionality**
   - lists (sometimes referred to as arrays)
+    - Brackets
+    - Indexed. First item in an index is at index [0]
+    - Ordered
+      - If we add an item to a list, it will be placed at the end of the list
+      - List methods are available to change ordering, but as a rule of thumb, list orders do not change by default
+    - Mutable
+      - We can change, add, or remove items after the list has been created
+    - Allow duplicate values
+      - Because lists are indexed, lists can have items with the same value. Python only cares about the index
   - dictionaries
+    - Curly braces 
+    - key: value pairings
+    - JSON payloads (REST API) 
+    - Python network automation makes extensive use of dictionaries
   - tuples
   - sets 
 
