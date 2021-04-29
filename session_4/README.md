@@ -31,6 +31,8 @@ This is not an exhaustive list, but these are the data types we will most common
   - integer
     - Whole numbers (both positive and negative)
     - Immutable
+    - Read more about integers [here](https://www.w3schools.com/python/python_numbers.asp)
+  
 ```console
 >>> access_vlan = 200
 ```
@@ -41,6 +43,7 @@ This is not an exhaustive list, but these are the data types we will most common
  ```console
  >>> shutdown = true
  ```
+  
   - string
     - Words 
     - Immutable
@@ -48,17 +51,21 @@ This is not an exhaustive list, but these are the data types we will most common
     - List of bytes representing unicode characters 
     - Python does not support a 'character' type. Thus, any single characters in Python are simply strings with a length of 1
     - We can access elements in a string individually
+    - Read more about strings [here](https://www.w3schools.com/python/python_strings.asp)
  ```console
  >>> a = 'hello world'
  >>> print(a[1])
  >>> e
 ```
+
 - float
   - Non-whole number (decimal)
   - Divides integer into fractional parts 
+  - Read more about floats [here](https://www.w3schools.com/python/python_numbers.asp)
 ```console
 >>> interface_bandwidth = 1000.00
 ```
+
 
 - **Non-Primitive: Data types derived from the primitive data types that offer increased functionality**
   - lists (sometimes referred to as arrays)
@@ -75,6 +82,7 @@ This is not an exhaustive list, but these are the data types we will most common
       - Because lists are indexed, lists can have items with the same value. Python only cares about the index
     - All items in a list must be the same type
       - For example, we cannot mix strings and integers in a list 
+    - Read more about lists [here](https://www.w3schools.com/python/python_lists.asp)
 ```console
 >>> vlan_ids = [100, 200, 300, 400, 500]
 ```
@@ -89,6 +97,7 @@ This is not an exhaustive list, but these are the data types we will most common
     - Python does not natively support duplicate keys in dictionaries
     - JSON payloads (REST API) 
     - Python network automation makes extensive use of dictionaries
+    - Read more about dictionaries [here](https://www.w3schools.com/python/python_dictionaries.asp)
 ```console
 >>> vlan_100 = {
             "vlan_id": "100",
@@ -132,9 +141,11 @@ This is not an exhaustive list, but these are the data types we will most common
     - Allow duplicate values 
     - Allow multiple different data types
       - For example, we can mix strings and integers into a single tuple
+    - Read more about tuples [here](https://www.w3schools.com/python/python_tuples.asp)
  ```console
  >>> interfaces = ('GigabitEthernet0/1', 'GigabitEthernet0/2', 'GigabitEthernet0/3')
  ```
+ 
   - sets 
     - Curly braces ({}) or defined using the set() function
     - Like tuples, sets store multiple items in a single variable 
@@ -145,6 +156,7 @@ This is not an exhaustive list, but these are the data types we will most common
       - Very useful at de-duplicating data 
       - Also very good at performing basic math operations
     - Commonly used to make scripts declarative when declarative-nature is not natively supported
+    - Read more about sets [here](https://www.w3schools.com/python/python_sets.asp)
 ```console
 >>> intended_vlans = set([100,200,300,400,500,600])
 >>> desired_vlans = set([101,201,301,401,500,600])
