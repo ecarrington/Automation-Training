@@ -1,5 +1,5 @@
 host_role: access # access, distribution, or core
-host_platform_type: 16.12.4
+host_platform_type: 15.2
 host_device_type: Catalyst 9K # optional. For documentation only.
 host_smart_licensing_enabled: true
 host_snmp:

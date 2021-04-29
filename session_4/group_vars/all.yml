@@ -75,7 +75,7 @@ all_aaa_radius_servers:
     acct: 1813
   timeout: 2
   retransmit: 3
-  key: 1SE1SEBABY
+  key: SECRETISEKEY
   attributes:
     - 6 on-for-login-auth
     - 8 include-in-access-req
@@ -85,7 +85,7 @@ all_aaa_radius_servers:
 
 # TACACS Configuration
 all_aaa_new_model:
-  enabled: false
+  enabled: true
 
 all_aaa_accounting:
   exec:

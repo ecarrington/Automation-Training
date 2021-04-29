@@ -3,12 +3,12 @@
 version {{ host_platform_type }}
 !
 hostname {{ inventory_hostname }}
-{# ios base configuration #}
-{% include 'base.j2' %}
 {# RADIUS Configuration #}
 {% include 'radius-servers.j2' %}
 {# TACACS Configuration #}
 {% include 'tacacs-servers.j2' %}
+{# ios base configuration #}
+{% include 'base.j2' %}
 {# VLAN Configuration #}
 {% include 'vlans.j2' %}
 {# VLAN Interfaces #}

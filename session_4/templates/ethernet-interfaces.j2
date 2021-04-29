@@ -51,7 +51,7 @@ interface {{ interface }}
 {%             endif %}
 {%         elif host_ethernet_interfaces[interface].type == 'trunk' %}
  description link to {{ ansible_facts.net_neighbors[interface].value[0] | default('Trunk interface') }}
-{%             if host_platform_type is search('^12\.') %}
+{%             if host_platform_type is search('^12\.|^15\.') %}
  switchport trunk encapsulation dot1q
 {%             endif %}
  switchport mode trunk
@@ -66,7 +66,7 @@ interface {{ interface }}
  switchport trunk allowed vlan {{ host_ethernet_interfaces[interface].allowed_vlans }}
 {%             endif %}
 {%             if host_ethernet_interfaces[interface].native_vlan is defined and host_ethernet_interfaces[interface].native_vlan is not none %}
- switchport trunk native vlan {{ host_ethernet_itnerfaces[interface].native_vlan }}
+ switchport trunk native vlan {{ host_ethernet_interfaces[interface].native_vlan }}
 {%             endif %}
 {%             if host_ethernet_interfaces[interface].dhcp_snooping_trust is defined and host_ethernet_interfaces[interface].dhcp_snooping_trust == true %}
  ip dhcp snooping trust

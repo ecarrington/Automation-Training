@@ -3,6 +3,11 @@
 {%     for vlan_interface in host_vlan_interfaces %}
 !
 interface {{ vlan_interface }}
+{%         if host_vlan_interfaces[vlan_interface].ip_address is defined and host_vlan_interfaces[vlan_interface].ip_address is not none %}
+{%             if host_vlan_interfaces[vlan_interface].subnet_mask is defined and host_vlan_interfaces[vlan_interface].subnet_mask is not none %}
+ ip address {{ host_vlan_interfaces[vlan_interface].ip_address }} {{ host_vlan_interfaces[vlan_interface].subnet_mask }}
+{%             endif %}
+{%         endif %}
 {%         if host_vlan_interfaces[vlan_interface].description is defined and host_vlan_interfaces[vlan_interface].description is not none %}
  description {{ host_vlan_interfaces[vlan_interface].description }}
 {%         endif %}
@@ -21,20 +26,15 @@ interface {{ vlan_interface }}
 {%         if host_vlan_interfaces[vlan_interface].arp_aging_timeout is defined and host_vlan_interfaces[vlan_interface].arp_aging_timeout is not none %}
  arp aging timeout {{ host_vlan_interfaces[vlan_interface].arp_aging_timeout }}
 {%         endif %}
-{%             if host_vlan_interfaces[vlan_interface].ip_proxy_arp is defined and host_vlan_interfaces[vlan_interface].ip_proxy_arp == true %}
+{%         if host_vlan_interfaces[vlan_interface].ip_proxy_arp is defined and host_vlan_interfaces[vlan_interface].ip_proxy_arp == true %}
  ip proxy-arp
-{%             else %}
+{%         else %}
  no ip proxy-arp
-{%             endif %}
-{%             if host_vlan_interfaces[vlan_interface].ip_redirects is defined and host_vlan_interfaces[vlan_interface].ip_proxy_arp == true %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ip_redirects is defined and host_vlan_interfaces[vlan_interface].ip_proxy_arp == true %}
  ip redirects
-{%             else %}
+{%         else %}
  no ip redirects
-{%             endif %}
-{%         if host_vlan_interfaces[vlan_interface].ip_address is defined and host_vlan_interfaces[vlan_interface].ip_address is not none %}
-{%             if host_vlan_interfaces[vlan_interface].subnet_mask is defined and host_vlan_interfaces[vlan_interface].subnet_mask is not none %}
- ip address {{ host_vlan_interfaces[vlan_interface].ip_address }} {{ host_vlan_interfaces[vlan_interface].subnet_mask }}
-{%             endif %}
 {%         endif %}
 {%         if host_vlan_interfaces[vlan_interface].routing_protocol is defined and host_vlan_interfaces[vlan_interface].routing_protocol is not none %}
 {%             if host_vlan_interfaces[vlan_interface].routing_protocol.keys() is defined and host_vlan_interfaces[vlan_interface].routing_protocol.keys() is not none %}
