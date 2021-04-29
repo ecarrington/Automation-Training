@@ -30,7 +30,6 @@
         path: ../temp/{{ inventory_hostname }}/
         state: directory
       delegate_to: localhost
-      run_once: true
       tags: build,deploy
 
     - name: Generate VLAN Configuration

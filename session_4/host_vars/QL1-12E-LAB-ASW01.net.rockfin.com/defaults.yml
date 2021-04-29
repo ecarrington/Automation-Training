@@ -5,12 +5,6 @@ host_smart_licensing_enabled: true
 host_snmp:
   location: Basement 160 Fort Detroit, MI
 
-
-host_management_interfaces:
-  Vlan204:
-    ip_address: 10.0.4.13
-    subnet_mask: 255.255.255.0
-
 host_default_gateway: 10.253.6.1
 
 host_ip_routing: false
