@@ -50,7 +50,7 @@ interface {{ interface }}
  shutdown
 {%             endif %}
 {%         elif host_ethernet_interfaces[interface].type == 'trunk' %}
- description link to {{ ansible_facts.net_neighbors[interface].value[0] | default('Trunk interface') }}
+ description {{ ansible_facts.net_neighbors[interface].value[0] | default(host_ethernet_interfaces[interface].description) | default('Trunk Interface') }}
 {%             if host_platform_type is search('^12\.|^15\.') %}
  switchport trunk encapsulation dot1q
 {%             endif %}
