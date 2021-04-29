@@ -34,16 +34,16 @@ all_ntp_servers:
 
 all_syslog:
   10.2.103.94:
-    tcp_port:
+    tcp_port: 5044
   10.2.103.105:
     udp_port:
   10.9.103.105:
-    udp_port:
+    udp_port: 515
   10.2.103.127:
     udp_port:
   10.9.103.125:
     udp_port:
-    
+
 # Allow Radius Change of Authority - Typically used for ISE. Calls COA template when true
 all_coa: true
 

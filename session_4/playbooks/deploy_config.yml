@@ -10,6 +10,29 @@
   gather_facts: no
 
   tasks:
+
+    - name: Acquire local date
+      shell: "date +%Y-%m-%d"
+      register: today
+      delegate_to: localhost
+      run_once: true
+      tags: build,deploy
+
+    - name: Acquire localhost time
+      shell: "date +%H:%M:%S"
+      register: time
+      delegate_to: localhost
+      run_once: true
+      tags: build,deploy
+
+    - name: Create temp output directory
+      file:
+        path: ../temp/{{ inventory_hostname }}/
+        state: directory
+      delegate_to: localhost
+      run_once: true
+      tags: build,deploy
+
     - name: Generate VLAN Configuration
       template:
         src: ../templates/vlans.j2

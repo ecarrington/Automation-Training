@@ -1,5 +1,6 @@
 {# ios syslog parameters #}
 {% if all_syslog is defined and all_syslog is not none %}
+!
 {%     for host in all_syslog %}
 {%         if all_syslog[host].tcp_port is defined and all_syslog[host].tcp_port is not none %}
 logging host {{ host }} transport tcp port {{ all_syslog[host].tcp_port }}
