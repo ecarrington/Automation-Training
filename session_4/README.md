@@ -168,5 +168,31 @@ This is not an exhaustive list, but these are the data types we will most common
 >>> {200, 100, 400, 300}
 ```
 
+#### Python Keywords 
+- Reserved words that cannot be reused as variable names, function names, or any other identifier
+- Commonly used in flow control 
+- Read more about keywords [here](https://www.w3schools.com/python/python_ref_keywords.asp)
+
+- **if/elif/else**
+  - 'If' - Allows creation of conditional statements, executing certain blocks of code if certain conditions are satisfied
+  - 'Elif' - Short for 'else if'. Executes certain blocks of code if a sequential condition is met. (If the preceding 'if' or 'elif' condition was not satisified)
+  - 'Else' - Executes code if certain conditions are not satisfied. Acts as a 'catch-all'
+  - It is best practice to control flow with an initial 'if' statement, followed by subsequent 'elif' and ending with an 'else' statement. This prevents the code from checking all other conditions once a certain condition has been satisfied. In short, its much more efficient. 
+    - Like an ACL. If a condition is satisifed in an ACL, the device stops comparing the packet against the ACL and allows/denies it. First-match logic 
+
+- **for**
+  - Used in looping (iterating through a sequence, such as a list, tuple, or dictionary) 
+
+- **or**
+  - Logical operator (it is used to connect two or more expressions)
+  - Returns true if a single condition is satisfied
+
+- **and**
+  - Logical operator
+  - Returns true if all listed conditions are satisfied
+
+- **not** 
+  - Logical operator
+  - Returns true if the statement is not True
 
  
