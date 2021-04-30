@@ -77,7 +77,7 @@
     - name: Generate RADIUS Server Configuration
       template:
         src: ../templates/radius-servers.j2
-        dest: ../temp/{{ inventory_hostname }}/tacacs-servers.cfg
+        dest: ../temp/{{ inventory_hostname }}/radius-servers.cfg
       delegate_to: localhost
       tags: build,deploy
 

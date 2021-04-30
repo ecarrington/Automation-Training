@@ -1,4 +1,4 @@
-{# eos - VLAN Interfaces #}
+{# ios - VLAN Interfaces #}
 {% if host_vlan_interfaces is defined and host_vlan_interfaces is not none %}
 {%     for vlan_interface in host_vlan_interfaces %}
 !
@@ -131,7 +131,7 @@ interface {{ vlan_interface }}
  ip ospf authentication-key 7 {{ host_vlan_interfaces[vlan_interface].ospf_authentication_key }}
 {%         endif %}
 {%         if host_vlan_interfaces[vlan_interface].ospf_message_digest_keys is defined and host_vlan_interfaces[vlan_interface].ospf_message_digest_keys is not none %}
-{%           for ospf_message_digest_key in host_vlan_interfaces[vlan_interface].ospf_message_digest_keys | arista.avd.natural_sort %}
+{%           for ospf_message_digest_key in host_vlan_interfaces[vlan_interface].ospf_message_digest_keys %}
  ip ospf message-digest-key {{ ospf_message_digest_key }} {{ host_vlan_interfaces[vlan_interface].ospf_message_digest_keys[ospf_message_digest_key].hash_algorithm }} 7 {{ host_vlan_interfaces[vlan_interface].ospf_message_digest_keys[ospf_message_digest_key].key }}
 {%           endfor %}
 {%         endif %}
