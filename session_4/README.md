@@ -1,4 +1,4 @@
-## Session 3: Introduction to Jinja2 Templating, Data Modeling, and Python
+## Session 4: Introduction to Jinja2 Templating, Data Modeling, and Python
 
 ### Mutability in Python
 - Programs store data in variables that represent storage locations in a computer's memory
