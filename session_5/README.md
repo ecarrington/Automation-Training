@@ -23,7 +23,7 @@
   - After the configuration was applied, did we break anything on the network that wasn't broken before?
 
 ### Unit Testing with Ansible Assert Module
-- Documentation for this module is available [here](docs.ansible.com/ansible/latest/collections/ansible/builtin/assert_module.html)
+- Documentation for this module is available [here](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/assert_module.html)
 - This module accepts a list of statements that must evaluate to true, otherwise, the assertion fails.
 - What we do on Assertion failure is up to us
   - Sometimes, it makes sense to stop the entire playbook when an assertion fails. This is especially true in cases of tactical playbooks where we are configuring a device without first rendering an intended configuration for review.
