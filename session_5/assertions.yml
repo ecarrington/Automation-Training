@@ -1,0 +1,6 @@
+assertions:
+  - "'ntp server 10.2.116.201 prefer' in intended_configuration"
+  - "'ntp server 10.2.116.200' in intended_configuration"
+  - "'ntp server 10.9.116.200' in intended_configuration"
+  - "'ntp server 10.10.116.201' in intended_configuration"
+  - "'ip name server 8.8.8.12' in intended_configuration"

@@ -1,0 +1,236 @@
+ansible_network_os: ios
+ansible_user: !vault |
+            $ANSIBLE_VAULT;1.1;AES256
+            63376238383533356262303262623235616166646437306330366436393466623832323964616336
+            3535626432316631316439616136373438336439613837610a363330333335333638383935316165
+            66656336313834386639363931353630323737613762323331313261313337353333613430376233
+            6639633833343935380a316437326335393230356661316335663138663564633661646633616530
+            34396237663565333463633238643830316431306637353164376230353261653939
+ansible_password: !vault |
+            $ANSIBLE_VAULT;1.1;AES256
+            64623036323763613836343463616333636664613431353064643430643163316362613839643364
+            3834383430353361353465373963363864313131323833380a363435366334336635623465386130
+            31613663306437343863613332613465306439623361343036393537633634656630303661386562
+            3530363731333233650a376438306466393763653264333566313137663938303334356561383838
+            6432
+ansible_become_pass: !vault |
+            $ANSIBLE_VAULT;1.1;AES256
+            64623036323763613836343463616333636664613431353064643430643163316362613839643364
+            3834383430353361353465373963363864313131323833380a363435366334336635623465386130
+            31613663306437343863613332613465306439623361343036393537633634656630303661386562
+            3530363731333233650a376438306466393763653264333566313137663938303334356561383838
+            6432
+ansible_python_interpreter: /usr/bin/python3
+
+all_ntp_servers:
+  10.2.116.201:
+    prefer: true
+  10.2.116.200:
+    prefer: false
+  10.9.116.200:
+    prefer: false
+  10.9.116.201:
+    prefer: false
+
+all_syslog:
+  10.2.103.94:
+    tcp_port: 5044
+  10.2.103.105:
+    udp_port:
+  10.9.103.105:
+    udp_port: 515
+  10.2.103.127:
+    udp_port:
+  10.9.103.125:
+    udp_port:
+
+# Allow Radius Change of Authority - Typically used for ISE. Calls COA template when true
+all_coa: true
+
+# AAA server group Configuration
+all_aaa_server_groups:
+  - type: radius
+    name: ISE
+    servers:
+      - ISE1
+      - ISE2
+
+all_aaa_tacacs_servers:
+  hosts:
+    - name: TACACS1
+      ipv4_address: 10.2.122.200
+    - name: TACACS2
+      ipv4_address: 10.9.122.200
+  key: tacacstestkey1
+
+# RADIUS configuration
+all_aaa_radius_servers:
+  hosts:
+    - name: ISE1
+      ipv4_address: 10.2.18.16
+    - name: ISE2
+      ipv4_address: 10.9.122.200
+  ports:
+    auth: 1812
+    acct: 1813
+  timeout: 2
+  retransmit: 3
+  key: SECRETISEKEY
+  attributes:
+    - 6 on-for-login-auth
+    - 8 include-in-access-req
+    - 25 access-request include
+    - dead-criteria time 30 tries 3
+
+
+# TACACS Configuration
+all_aaa_new_model:
+  enabled: true
+
+all_aaa_accounting:
+  exec:
+    default: start-stop
+  commands:
+    - '0'
+    - '15'
+  group: tacacs+
+
+# options, local, enable, or other aaa grouip
+all_aaa_authentication:
+  login:
+    default: enable
+  enable:
+    default: enable
+  group: tacacs+
+
+all_aaa_authorization:
+  exec:
+    default: default
+  commands:
+    - '0'
+    - '15'
+  group: tacacs+
+
+all_authentication_critical_recovery_delay: 1000
+
+# may possibly be unique per building and may have to go into a dedicated <building_name>_vars.yml file
+all_qos_input_policy: AutoQos-4.0-Trust-Dscp-Input-Policy
+
+all_qos_output_policy: AutoQos-4.0-Trust-Dscp-Output-Policy
+
+all_mgmt_vlan: 401
+all_user_vlan: 200
+all_voice_vlan: 201
+
+all_snmp:
+  hosts:
+    - 10.0.2.8
+    - 10.0.2.9
+  readonly_community: superreader
+  readwrite_community: superwriter
+  contact: Network Engineering, ext. 37373
+  traps:
+    - snmp authentication linkdown linkup coldstart warmstart
+    - flowmon
+    - call-home message-send-fail server-fail # not supported in IOSvL2
+    - tty
+    - ospf state-change
+    - ospf errors
+    - ospf retransmit
+    - ospf lsa
+    - ospf cisco-specific state-change nssa-trans-change
+    - ospf cisco-specific state-change shamlink interface
+    - ospf cisco-specific state-change shamlink neighbor
+    - ospf cisco-specific errors
+    - ospf cisco-specific retransmit
+    - ospf cisco-specific lsa
+    - eigrp
+    - auth-framework sec-violation
+    - vtp
+    - vlancreate
+    - vlandelete
+    - port-security
+    - license
+    - cpu threshold
+    - memory bufferpeak
+    - stackwise
+    - fru-ctrl
+    - flash insertion
+    - flash removal
+    - power-ethernet group 1 threshold 80
+    - power-ethernet police
+    - entity
+    - envmon fan shutdown supply temperature status
+    - cef resource-failure peer-state-change peer-fib-state-change inconsistency
+    - ipsla
+    - config-copy
+    - config
+    - config-ctid
+    - event-manager
+    - hsrp
+    - ipmulticast
+    - pim neighbor-change rp-mapping-change invalid-pim-message
+    - bridge newroot topologychange
+    - stpx inconsistency root-inconsistency loop-inconsistency
+    - syslog
+    - vlan-membership
+    - errdisable
+    - rf
+    - transceiver all
+    - bulkstat collection transfer
+    - mac-notification change move threshold
+    - vrfmib vrf-up vrf-down vnet-trunk-up vnet-trunk-down
+
+all_access_edge_vlans:
+  200:
+    name: user_data
+    state: active
+    shutdown: false
+  201:
+    name: user_voice
+    state: active
+    shutdown: false
+  202:
+    name: rock_equities
+    state: active
+    shutdown: false
+  203:
+    name: training
+    state: active
+    shutdown: false
+  204:
+    name: network_devices
+    state: active
+    shutdown: false
+  205:
+    name: tech_ops
+    state: active
+    shutdown: false
+  206:
+    name: dset
+    state: active
+    shutdown: false
+  207:
+    name: web_team
+    state: active
+    shutdown: false
+  208:
+    name: security_cameras
+    state: active
+    shutdown: false
+  209:
+    name: nac_auth_vlan
+    state: active
+    shutdown: false
+  900:
+    name: internet_only
+    state: active
+    shutdown: false
+  999:
+    name: unused
+    state: active
+    shutdown: true
+  400:
+    name: management
+    state: active
+    shutdown: false

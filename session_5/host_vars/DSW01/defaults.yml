@@ -1,0 +1,69 @@
+host_role: distribution
+host_platform_type: 16.12
+host_device_type: Catalyst 3850 Series # optional. For documentation only.
+host_smart_licensing_enabled: true
+host_snmp:
+  location: 123 Sunnside Drive, Tampa, Florida 11111
+
+host_ip_routing: true
+
+host_router_ospf:
+  process_ids:
+    1:
+      router_id: 1.1.1.1
+      timers: # timer values are in ms
+        lsa:
+          first_occurance_delay: 150
+          min_delay: 500
+          max_delay: 500
+        spf:
+          first_calculation_delay: 150
+          first_second_calculation_delay: 500
+          max_wait_time: 500
+        lsa_arrival: 500
+      reference_bandwidth: 100000
+    2:
+      router_id: 2.1.1.1
+      timers: # timer values are in ms
+        lsa:
+          first_occurance_delay: 250
+          min_delay: 600
+          max_delay: 600
+        spf:
+          first_calculation_delay: 250
+          first_second_calculation_delay: 600
+          max_wait_time: 600
+        lsa_arrival: 600
+      reference_bandwidth: 100000
+      # Example of non-interface OSPF configuration with passive interfaces and network statement
+      passive_interfaces:
+        - GigabitEthernet0/0
+        - GigabitEthernet1/0
+      # You may also set all interfaces to passive for a particular OSPF process as follows
+#      passive_interface_default: true/false
+      networks:
+        172.16.0.0:
+          wildcard_mask: 0.0.0.255
+          area: 16
+
+host_loopback_interfaces:
+  loopback0:
+    ip_address: 1.1.1.1
+
+host_management_interfaces:
+  loopback0:
+    ip_address: 1.1.1.1
+    subnet_mask: 255.255.255.255
+
+host_spanning_tree:
+  vlans:
+    200:
+      priority: 0
+    201:
+      priority: 0
+    204:
+      priority: 0
+    208:
+      priority: 0
+    900:
+      priority: 0

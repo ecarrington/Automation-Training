@@ -1,0 +1,12 @@
+---
+- name: Add VLANs to Target Switches
+  hosts: all
+  connection: network_cli
+  gather_facts: false
+
+  tasks:
+    - name: Validate supplied VLAN data model - Name
+      assert:
+        that:
+          - "vlan_name != None"
+        fail_msg: "Vlans must have a name."

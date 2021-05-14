@@ -1,0 +1,10 @@
+host_role: access # access, distribution, or core
+host_platform_type: 16.9.5
+host_device_type: Catalyst 9K # optional. For documentation only.
+host_smart_licensing_enabled: true
+host_snmp:
+  location: 12th Floor East Lab One Campus Martius Detroit, MI
+
+host_default_gateway: 10.253.6.1
+
+host_ip_routing: false

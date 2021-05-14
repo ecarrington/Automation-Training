@@ -1,0 +1,227 @@
+host_ethernet_interfaces:
+  GigabitEthernet0/1:
+    type: trunk
+    description: QL1-12E-DSW01 Gi0/33
+    dot1x: false
+    dhcp_snooping_trust: true
+  GigabitEthernet0/2:
+    type: trunk
+    description: QL1-12E-DSW02 Gi0/33
+    dot1x: false
+    dhcp_snooping_trust: true # set DHCP snooping trust on trunk port with key as needed
+  GigabitEthernet0/3:
+    type: edge
+    description: Bill test
+    dot1x: true
+    shutdown: true # specify port shutdown with this key
+# we can override default port profile vlan with the key below
+    access_vlan: 205
+  GigabitEthernet0/4:
+    type: edge
+    description: Matts Port
+    dot1x: true
+  GigabitEthernet0/5:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/6:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/7:
+    type: edge
+    description: Ahmed MAB ISE test
+    dot1x: true
+    access_vlan: 205
+  GigabitEthernet0/8:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/9:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/10:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/11:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/12:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/13:
+    type: trunk
+    description: MadisonFlex_Test_AP
+    native_vlan: 200
+  GigabitEthernet0/14:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/15:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/16:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/17:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/18:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/19:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/20:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/21:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/22:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/23:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/24:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/25:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/26:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true # specify shutdown with this key
+  GigabitEthernet0/27:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/28:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/29:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/30:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/31:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/32:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/33:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/34:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/35:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/36:
+    type: edge
+    description: USER PORT
+    dot1x: true
+  GigabitEthernet0/37:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    access_vlan: 204
+  GigabitEthernet0/38:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/39:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/40:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    access_vlan: 204
+  GigabitEthernet0/41:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/42:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/43:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/44:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/45:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/46:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    shutdown: true
+  GigabitEthernet0/47:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    access_vlan: 900
+  GigabitEthernet0/48:
+    type: edge
+    description: USER PORT
+    dot1x: true
+    access_vlan: 205
+
+
+host_vlan_interfaces:
+  Vlan204:
+    ip_address: 10.253.6.11
+    subnet_mask: 255.255.255.0
+    # simply delete below if not using a routing protocol

@@ -1,0 +1,10 @@
+{# IOS TACACS Server Configuration #}
+{% if all_aaa_tacacs_servers is defined and all_aaa_tacacs_servers is not none and all_aaa_new_model.enabled == true %}
+!
+tacacs-server directed-request
+{%     for server in all_aaa_tacacs_servers.hosts  %}
+tacacs server {{ server['name'] }}
+ address ipv4 {{ server['ipv4_address'] }}
+ key {{ all_aaa_tacacs_servers.key }}
+{%     endfor %}
+{% endif %}

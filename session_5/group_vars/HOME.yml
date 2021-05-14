@@ -1,0 +1,7 @@
+ansible_network_os: ios
+ansible_user: adam
+ansible_password: cisco
+ansible_become_pass: cisco # enable password essentially
+
+access_edge_dot1x_authorize_vlan: 200
+access_edge_user_vlan: 200

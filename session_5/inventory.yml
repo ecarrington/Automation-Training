@@ -1,0 +1,17 @@
+all:
+  children:
+    LAB_ASW:
+      hosts:
+        QL1-12E-LAB-ASW01.net.rockfin.com:
+        QL1-12E-LAB-ASW02.net.rockfin.com:
+        QL1-12E-LAB-ASW03.net.rockfin.com:
+    LAB_DSW:
+      hosts:
+        QL1-12E-LAB-DSW01.net.rockfin.com:
+        QL1-12E-LAB-DSW02.net.rockfin.com:
+    HOME:
+      hosts:
+        ASW01:
+          ansible_host: 10.1.4.7
+        DSW01:
+          ansible_host: 10.1.4.6

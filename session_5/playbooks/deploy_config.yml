@@ -1,0 +1,102 @@
+# ansible-playbook deploy_config.yml --tags build, deploy
+# Tag deploy generates and deploys. Tag build only builds config
+# Each task has a dedicated template to render a piece of configuration
+# Each piece of configuration is dumped to temp folder, and then assembled into the final configuration
+
+---
+- name: PLAY 1 - GENERATE DEVICE CONFIGURATION
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+
+    - name: Acquire local date
+      shell: "date +%Y-%m-%d"
+      register: today
+      delegate_to: localhost
+      run_once: true
+      tags: build,deploy
+
+    - name: Acquire localhost time
+      shell: "date +%H:%M:%S"
+      register: time
+      delegate_to: localhost
+      run_once: true
+      tags: build,deploy
+
+    - name: Create temp output directory
+      file:
+        path: ../temp/{{ inventory_hostname }}/
+        state: directory
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Generate VLAN Configuration
+      template:
+        src: ../templates/vlans.j2
+        dest: ../temp/{{ inventory_hostname }}/vlans.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Generate VLAN Interface (SVI) Configuration
+      template:
+        src: ../templates/vlan-interfaces.j2
+        dest: ../temp/{{ inventory_hostname }}/vlan-interfaces.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Generate Interface Configuration
+      template:
+        src: ../templates/ethernet-interfaces.j2
+        dest: ../temp/{{ inventory_hostname }}/ethernet-interfaces.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Generate NTP Configuration
+      template:
+        src: ../templates/ntp.j2
+        dest: ../temp/{{ inventory_hostname }}/ntp.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Generate Syslog Configuration
+      template:
+        src: ../templates/syslog.j2
+        dest: ../temp/{{ inventory_hostname }}/syslog.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name : Generate SNMP Configuration
+      template:
+        src: ../templates/snmp.j2
+        dest: ../temp/{{ inventory_hostname }}/snmp.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Generate RADIUS Server Configuration
+      template:
+        src: ../templates/radius-servers.j2
+        dest: ../temp/{{ inventory_hostname }}/tacacs-servers.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Generate TACACS Server Configuration
+      template:
+        src: ../templates/tacacs-servers.j2
+        dest: ../temp/{{ inventory_hostname }}/tacacs-servers.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Assemble configuration snippets into intended configuration
+      template:
+        src: ../templates/intended_config.j2
+        dest: ../intended_configs/{{ inventory_hostname }}.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Deploy intended configuration to device
+      ios_config:
+        src: ../intended_configs/{{ inventory_hostname }}.cfg
+        save_when: changed
+      tags: deploy
