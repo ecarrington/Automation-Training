@@ -1,12 +1,74 @@
+# sample CLI input ansible-playbook vlan.yml -i ../inventory.yml --limit SW1 -e "{vlan_name: ['test1', 'test2', 'test3', 'test80'], vlan_id: [10, 20, 30, 80], config_state: 'present', interface: ['g1/1', 'g1/2'] }"
+# Above adds VLANs 10, 20, 30, and 80 as test1, 2, 3, and 80 respectively, and adds the vlans to both supplied interfaces 
 ---
-- name: Add VLANs to Target Switches
+
+- name: Add VLANs to target switches
   hosts: all
   connection: network_cli
   gather_facts: false
 
   tasks:
+
+    - name: Validate supplied VLAN data model - VLAN number
+      assert:
+        that:
+          - "item > 0"
+          - "item < 4094"
+        fail_msg: "'vlan_id' must be between 1-4094. Vlans 1002-1005 are not supported."
+      with_items: "{{ vlan_id }}"
+
+      # remove desired VLANs (you only need to supply the ID) and kill the play if config state is absent
+    - name: Remove VLANs if specified
+      ios_vlans:
+        config:
+          - vlan_id: "{{ item }}"
+        state: deleted
+      with_items: "{{ vlan_id }}"
+      when: config_state == 'absent'
+
+    - meta: end_play
+      when: config_state == 'absent'
+
+      # Otherwise, add VLANs by name and ID, and update port channels/trunks
     - name: Validate supplied VLAN data model - Name
       assert:
         that:
-          - "vlan_name != None"
-        fail_msg: "Vlans must have a name."
+          - item is defined and item != ''
+        fail_msg: "VLAN must have a name!"
+      with_items: "{{ vlan_name }}"
+
+    - name: Gather Trunk Interfaces
+      become: yes 
+      become_method: enable 
+      ios_command:
+        commands: 
+          - 'show interfaces status | include trunk|Vlan'
+      register: cli_output 
+
+    - name: Convert trunk output to list 
+      set_fact:
+        trunks: "{{ cli_output.stdout[0] | parse_cli_textfsm('../../ntc-templates/templates/cisco_ios_show_interfaces_status.textfsm') | map(attribute='PORT') | list }}"
+
+    - name: Add desired VLANs to target switches 
+      become: yes 
+      become_method: enable 
+      ios_vlans:
+        config:
+          - name: "{{ item.1 }}"
+            vlan_id: "{{ item.0 }}"
+            state: "active"
+            shutdown: "disabled"
+        state: merged
+      with_together:
+          - "{{ vlan_id }}"
+          - "{{ vlan_name }}"
+
+    - name: Update Trunks with New VLAN
+      become: yes 
+      become_method: enable
+      ios_config:
+        lines:
+          - 'switchport trunk allowed vlan add {{ vlan_id | list | join(",") }}'
+        parents: "interface {{ item }}"
+      with_items: "{{ trunks }}"
+      when: trunks != [] and ansible_network_os == 'ios'
