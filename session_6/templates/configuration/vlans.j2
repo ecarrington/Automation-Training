@@ -1,0 +1,14 @@
+{# ios - VLANs #}
+{% if all_access_edge_vlans is defined and all_access_edge_vlans is not none and host_role != 'core' %}
+{%     for vlan in all_access_edge_vlans %}
+!
+vlan {{ vlan }}
+ name {{ all_access_edge_vlans[vlan].name }}
+{%         if all_access_edge_vlans[vlan].state is defined and all_access_edge_vlans[vlan].state == "suspend" %}
+ state {{ all_access_edge_vlans[vlan].state }}
+{%         endif %}
+{%         if all_access_edge_vlans[vlan].shutdown == true %}
+ shutdown
+{%         endif %}
+{%     endfor %}
+{% endif %}

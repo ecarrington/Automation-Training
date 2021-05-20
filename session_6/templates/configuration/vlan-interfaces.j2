@@ -1,0 +1,204 @@
+{# eos - VLAN Interfaces #}
+{% if host_vlan_interfaces is defined and host_vlan_interfaces is not none %}
+{%     for vlan_interface in host_vlan_interfaces %}
+!
+interface {{ vlan_interface }}
+{%         if host_vlan_interfaces[vlan_interface].ip_address is defined and host_vlan_interfaces[vlan_interface].ip_address is not none %}
+{%             if host_vlan_interfaces[vlan_interface].subnet_mask is defined and host_vlan_interfaces[vlan_interface].subnet_mask is not none %}
+ ip address {{ host_vlan_interfaces[vlan_interface].ip_address }} {{ host_vlan_interfaces[vlan_interface].subnet_mask }}
+{%             endif %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].description is defined and host_vlan_interfaces[vlan_interface].description is not none %}
+ description {{ host_vlan_interfaces[vlan_interface].description }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].shutdown is defined and host_vlan_interfaces[vlan_interface].shutdown == true %}
+ shutdown
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].mtu is defined and host_vlan_interfaces[vlan_interface].mtu != 1500 %}
+ mtu {{ host_vlan_interfaces[vlan_interface].mtu }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].no_autostate is defined and host_vlan_interfaces[vlan_interface].no_autostate == true %}
+ no autostate
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].vrf is defined and host_vlan_interfaces[vlan_interface].vrf is not none %}
+ vrf {{ host_vlan_interfaces[vlan_interface].vrf }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].arp_aging_timeout is defined and host_vlan_interfaces[vlan_interface].arp_aging_timeout is not none %}
+ arp aging timeout {{ host_vlan_interfaces[vlan_interface].arp_aging_timeout }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ip_proxy_arp is defined and host_vlan_interfaces[vlan_interface].ip_proxy_arp == true %}
+ ip proxy-arp
+{%         else %}
+ no ip proxy-arp
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ip_redirects is defined and host_vlan_interfaces[vlan_interface].ip_proxy_arp == true %}
+ ip redirects
+{%         else %}
+ no ip redirects
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].routing_protocol is defined and host_vlan_interfaces[vlan_interface].routing_protocol is not none %}
+{%             if host_vlan_interfaces[vlan_interface].routing_protocol.keys() is defined and host_vlan_interfaces[vlan_interface].routing_protocol.keys() is not none %}
+{%                 if host_vlan_interfaces[vlan_interface].routing_protocol.keys() is search('ospf') %}
+{%                     if host_vlan_interfaces[vlan_interface].routing_protocol.ospf.process_id is defined and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.process_id is not none and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.area is defined and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.area is not none %}
+ ip ospf {{ host_vlan_interfaces[vlan_interface].routing_protocol.ospf.process_id }} area {{ host_vlan_interfaces[vlan_interface].routing_protocol.ospf.area }}
+{%                         if host_vlan_interfaces[vlan_interface].routing_protocol.ospf.type is defined and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.type is not none %}
+ ip ospf network {{ host_vlan_interfaces[vlan_interface].routing_protocol.ospf.type }}
+{%                         endif %}
+{%                     endif %}
+{%                 endif %}
+{%             endif %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].pim is defined and host_vlan_interfaces[vlan_interface].pim is not none %}
+ ip pim {{ host_vlan_interfaces[vlan_interface].pim }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ip_virtual_router_address is defined %}
+ ip virtual-router address {{ host_vlan_interfaces[vlan_interface].ip_virtual_router_address }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ip_address_virtual is defined %}
+ ip address virtual {{ host_vlan_interfaces[vlan_interface].ip_address_virtual }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ip_helpers is defined and host_vlan_interfaces[vlan_interface].ip_helpers is not none %}
+{%            for ip_helper in host_vlan_interfaces[vlan_interface].ip_helpers %}
+ ip helper-address {{ ip_helper }} {% if host_vlan_interfaces[vlan_interface].ip_helpers[ip_helper].vrf is defined and host_vlan_interfaces[vlan_interface].ip_helpers[ip_helper].vrf is not none %}vrf {{ host_vlan_interfaces[vlan_interface].ip_helpers[ip_helper].vrf }} {% endif %} {% if host_vlan_interfaces[vlan_interface].ip_helpers[ip_helper].source_interface is defined and host_vlan_interfaces[vlan_interface].ip_helpers[ip_helper].source_interface is not none %}source-interface {{host_vlan_interfaces[vlan_interface].ip_helpers[ip_helper].source_interface }}{% endif %}
+
+{%            endfor %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_enable is defined and host_vlan_interfaces[vlan_interface].ipv6_enable == true %}
+ ipv6 enable
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_address is defined and host_vlan_interfaces[vlan_interface].ipv6_address is not none %}
+ ipv6 address {{ host_vlan_interfaces[vlan_interface].ipv6_address }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_address_link_local is defined and host_vlan_interfaces[vlan_interface].ipv6_address_link_local is not none %}
+ ipv6 address {{ host_vlan_interfaces[vlan_interface].ipv6_address_link_local }} link-local
+{%             endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_nd_ra_disabled is defined and host_vlan_interfaces[vlan_interface].ipv6_nd_ra_disabled == true %}
+ ipv6 nd ra disabled
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_nd_managed_config_flag is defined and host_vlan_interfaces[vlan_interface].ipv6_nd_managed_config_flag == true %}
+ ipv6 nd managed-config-flag
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes is defined and host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes is not none %}
+{%             for prefix in host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes %}
+ ipv6 nd prefix {{ prefix }} {% if host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].valid_lifetime is defined and host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].valid_lifetime is not none %}{{ host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].valid_lifetime }} {% endif %}{% if host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].preferred_lifetime is defined and host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].preferred_lifetime is not none %}{{ host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].preferred_lifetime }} {% endif %}{% if host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].no_autoconfig_flag is defined and host_vlan_interfaces[vlan_interface].ipv6_nd_prefixes[prefix].no_autoconfig_flag == true %}no-autoconfig{% endif %}
+
+{%             endfor %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].multicast.ipv4.source_route_export.enabled is defined and host_vlan_interfaces[vlan_interface].multicast.ipv4.source_route_export.enabled == true %}
+ multicast ipv4 source route export {% if host_vlan_interfaces[vlan_interface].multicast.ipv4.source_route_export.administrative_distance is defined and host_vlan_interfaces[vlan_interface].multicast.ipv4.source_route_export.administrative_distance is not none %}{{ host_vlan_interfaces[vlan_interface].multicast.ipv4.source_route_export.administrative_distance }}{% endif %}
+
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].access_group_in is defined and host_vlan_interfaces[vlan_interface].access_group_in is not none %}
+ ip access-group {{ host_vlan_interfaces[vlan_interface].access_group_in }} in
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].access_group_out is defined and host_vlan_interfaces[vlan_interface].access_group_out is not none %}
+ ip access-group {{ host_vlan_interfaces[vlan_interface].access_group_out }} out
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_access_group_in is defined and host_vlan_interfaces[vlan_interface].ipv6_access_group_in is not none %}
+ ipv6 access-group {{ host_vlan_interfaces[vlan_interface].ipv6_access_group_in }} in
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_access_group_out is defined and host_vlan_interfaces[vlan_interface].ipv6_access_group_out is not none %}
+ ipv6 access-group {{ host_vlan_interfaces[vlan_interface].ipv6_access_group_out }} out
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].routing_protocol is defined and host_vlan_interfaces[vlan_interface].routing_protocol is not none %}
+{%             if host_vlan_interfaces[vlan_interface].routing_protocol.keys() is defined and host_vlan_interfaces[vlan_interface].keys() is not none %}
+{%                 if host_vlan_interfaces[vlan_interface].routing_protocol.keys() is search('ospf') %}
+{%                        if host_vlan_interfaces[vlan_interface].routing_protocol.ospf.process_id is defined and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.process_id is not none and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.area is defined and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.area is not none %}
+ ip ospf {{ host_vlan_interfaces[vlan_interface].routing_protocol.ospf.process_id }} area {{ host_vlan_interfaces[vlan_interface].routing_protocol.ospf.area }}
+{%                            if host_vlan_interfaces[vlan_interface].routing_protocol.ospf.type is defined and host_vlan_interfaces[vlan_interface].routing_protocol.ospf.type is not none %}
+ ip ospf network {{ host_vlan_interfaces[vlan_interface].routing_protocol.ospf.type }}
+{%                            endif %}
+{%                        endif %}
+{%                    endif %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ospf_network_point_to_point is defined and host_vlan_interfaces[vlan_interface].ospf_network_point_to_point == true %}
+ ip ospf network point-to-point
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ospf_area is defined and host_vlan_interfaces[vlan_interface].ospf_area is not none %}
+ ip ospf area {{ host_vlan_interfaces[vlan_interface].ospf_area }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ospf_cost is defined and host_vlan_interfaces[vlan_interface].ospf_cost is not none %}
+ ip ospf cost {{ host_vlan_interfaces[vlan_interface].ospf_cost }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ospf_authentication is defined and host_vlan_interfaces[vlan_interface].ospf_authentication is not none %}
+{%           if host_vlan_interfaces[vlan_interface].ospf_authentication == "simple" %}
+ ip ospf authentication
+{%           elif host_vlan_interfaces[vlan_interface].ospf_authentication == "message-digest" %}
+ ip ospf authentication message-digest
+{%           endif %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ospf_authentication_key is defined and host_vlan_interfaces[vlan_interface].ospf_authentication_key is not none %}
+ ip ospf authentication-key 7 {{ host_vlan_interfaces[vlan_interface].ospf_authentication_key }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ospf_message_digest_keys is defined and host_vlan_interfaces[vlan_interface].ospf_message_digest_keys is not none %}
+{%           for ospf_message_digest_key in host_vlan_interfaces[vlan_interface].ospf_message_digest_keys %}
+ ip ospf message-digest-key {{ ospf_message_digest_key }} {{ host_vlan_interfaces[vlan_interface].ospf_message_digest_keys[ospf_message_digest_key].hash_algorithm }} 7 {{ host_vlan_interfaces[vlan_interface].ospf_message_digest_keys[ospf_message_digest_key].key }}
+{%           endfor %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].pim is defined and host_vlan_interfaces[vlan_interface].pim is not none %}
+ ip pim {{ host_vlan_interfaces[vlan_interface].pim }}
+{%         endif %}
+{%            if host_vlan_interfaces[vlan_interface].pim.ipv4.sparse_mode is defined and host_vlan_interfaces[vlan_interface].pim.ipv4.sparse_mode == true %}
+ pim ipv4 sparse-mode
+{%            endif %}
+{%            if host_vlan_interfaces[vlan_interface].pim.ipv4.local_interface is defined and host_vlan_interfaces[vlan_interface].pim.ipv4.local_interface is not none %}
+ pim ipv4 local-interface {{ host_vlan_interfaces[vlan_interface].pim.ipv4.local_interface }}
+{%            endif %}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].ipv6_virtual_router_address is defined and host_vlan_interfaces[vlan_interface].ipv6_virtual_router_address is not none %}
+ ipv6 virtual-router address {{ host_vlan_interfaces[vlan_interface].ipv6_virtual_router_address }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].isis_enable is defined %}
+ isis enable {{ host_vlan_interfaces[vlan_interface].isis_enable }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].isis_passive is defined and host_vlan_interfaces[vlan_interface].isis_passive == true %}
+ isis passive
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].isis_metric is defined %}
+ isis metric {{ host_vlan_interfaces[vlan_interface].isis_metric }}
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].isis_network_point_to_point is defined and host_vlan_interfaces[vlan_interface].isis_network_point_to_point == true %}
+ isis network point-to-point
+{%         endif %}
+{%         if host_vlan_interfaces[vlan_interface].fhrp is defined and host_vlan_interfaces[vlan_interface].fhrp is not none %}
+{%             if host_vlan_interfaces[vlan_interface].fhrp.type is defined and host_vlan_interfaces[vlan_interface].fhrp.type == 'hsrp' %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.group is defined and host_vlan_interfaces[vlan_interface].fhrp.group is not none %}
+{%                     if host_vlan_interfaces[vlan_interface].fhrp.ip_address is defined and host_vlan_interfaces[vlan_interface].fhrp.ip_address is not none %}
+ standby {{ host_vlan_interfaces[vlan_interface].fhrp.group }} ip {{ host_vlan_interfaces[vlan_interface].fhrp.ip_address }}
+{%                     endif %}
+{%                     if host_vlan_interfaces[vlan_interface].fhrp.priority is defined and host_vlan_interfaces[vlan_interface].fhrp.priority is not none %}
+ standby {{ host_vlan_interfaces[vlan_interface].fhrp.group }} priority {{ host_vlan_interfaces[vlan_interface].fhrp.priority }}
+{%                     endif %}
+{%                     if host_vlan_interfaces[vlan_interface].fhrp.preempt is defined and host_vlan_interfaces[vlan_interface].fhrp.preempt == true  %}
+{%                         if host_vlan_interfaces[vlan_interface].fhrp.preempt_delay_minimum is defined and host_vlan_interfaces[vlan_interface].fhrp.preempt_delay_minimum is not none %}
+ standby {{ host_vlan_interfaces[vlan_interface].fhrp.group }} preempt delay minimum {{ host_vlan_interfaces[vlan_interface].fhrp.preempt_delay_minimum }}
+{%                         else %}
+ standby {{ host_vlan_interfaces[vlan_interface].fhrp.group }} preempt
+{%                         endif %}
+{%                     endif %}
+{%                 endif %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.password is defined and host_vlan_interfaces[vlan_interface].fhrp.password is not none %}
+ standby {{ host_vlan_interfaces[vlan_interface].fhrp.group }} authentication {{ host_vlan_interfaces[vlan_interface].fhrp.password }}
+{%                 endif %}
+{%             elif host_vlan_interfaces[vlan_interface].fhrp.type is defined and host_vlan_interfaces[vlan_interface].fhrp.type == 'vrrp' %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.virtual_router is defined and host_vlan_interfaces[vlan_interface].fhrp.virtual_router is not none %}
+{%                 endif %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.priority is defined and host_vlan_interfaces[vlan_interface].fhrp.priority is not none and host_vlan_interfaces[vlan_interface].fhrp.priority > 1 %}
+ vrrp {{ host_vlan_interfaces[vlan_interface].fhrp.virtual_router }} priority-level {{ host_vlan_interfaces[vlan_interface].fhrp.priority }}
+{%                 endif %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.advertisement_interval is defined and host_vlan_interfaces[vlan_interface].fhrp.advertisement_interval is not none %}
+ vrrp {{ host_vlan_interfaces[vlan_interface].fhrp.virtual_router }} advertisement interval {{ host_vlan_interfaces[vlan_interface].fhrp.advertisement_interval }}
+{%                 endif %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.preempt_delay_minimum is defined and host_vlan_interfaces[vlan_interface].fhrp.preempt_delay_minimum is not none %}
+ vrrp {{ host_vlan_interfaces[vlan_interface].fhrp.virtual_router }} preempt delay minimum {{ host_vlan_interfaces[vlan_interface].fhrp.preempt_delay_minimum }}
+{%                 endif %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.ipv4 is defined and host_vlan_interfaces[vlan_interface].fhrp.ipv4 is not none %}
+ vrrp {{ host_vlan_interfaces[vlan_interface].fhrp.virtual_router }} ipv4 {{ host_vlan_interfaces[vlan_interface].fhrp.ipv4 }}
+{%                 endif %}
+{%                 if host_vlan_interfaces[vlan_interface].fhrp.ipv6 is defined and host_vlan_interfaces[vlan_interface].fhrp.ipv6 is not none %}
+ vrrp {{ host_vlan_interfaces[vlan_interface].fhrp.virtual_router }} ipv6 {{ host_vlan_interfaces[vlan_interface].fhrp.ipv6 }}
+{%                 endif %}
+{%             endif %}
+{%         endif %}
+{%     endfor %}
+{% endif %}

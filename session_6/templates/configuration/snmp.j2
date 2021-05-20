@@ -1,0 +1,31 @@
+{# ios snmp v2 settings #}
+{% if all_snmp is defined and all_snmp is not none and not host_platform_type is search('^12\.|^15\.') %}
+!
+{%     if all_snmp.hosts is defined and all_snmp_hosts is not none %}
+{%         for host in all_snmp.hosts %}
+snmp-server host {{ host }} {{ all_snmp.readonly_community | default(omit) }}
+{%         endfor %}
+{%     endif %}
+{%     if all_snmp.readonly_community is defined and all_snmp.readonly_community is not none %}
+snmp-server community {{ all_snmp.readonly_community }} RO
+{%     endif %}
+{%     if all_snmp.readwrite_community is defined and all_snmp.readwrite_community is not none %}
+snmp-server community {{ all_snmp.readwrite_community }} RW
+{%     endif %}
+{%     if host_snmp.location is defined and host_snmp.location is not none %}
+snmp-server location {{ host_snmp.location }}
+{%     endif %}
+{%     if all_snmp.contact is defined and all_snmp.contact is not none %}
+snmp-server contact {{ all_snmp.contact }}
+{%     endif %}
+{%     if all_snmp.system_shutdown is defined and all_snmp.system_shutdown == true %}
+snmp-server system-shutdown
+{%     endif %}
+{%     if all_snmp.traps is defined and all_snmp.traps is not none %}
+{%         for trap in all_snmp.traps %}
+snmp-server enable traps {{ trap }}
+{%         endfor %}
+{%     else %}
+snmp-server enable traps
+{%     endif %}
+{% endif %}

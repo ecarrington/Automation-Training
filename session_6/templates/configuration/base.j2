@@ -1,0 +1,4 @@
+{% if host_default_gateway is defined and host_default_gateway is not none %}
+!
+ip default gateway {{ host_default_gateway }}
+{% endif %}

@@ -1,0 +1,55 @@
+---
+- name: PLAY 1 - VALIDATE INTENDED CONFIGURATION
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  vars_files:
+    - '../assertions.yml'
+
+  tasks:
+
+    - name: Acquire local date
+      shell: "date +%Y-%m-%d"
+      register: today
+      delegate_to: localhost
+      run_once: true
+      tags: build,deploy
+
+    - name: Acquire localhost time
+      shell: "date +%H:%M:%S"
+      register: time
+      delegate_to: localhost
+      run_once: true
+      tags: build,deploy
+
+    - name: Load intended configuration
+      set_fact:
+        intended_configuration: "{{ lookup('file', '../intended_configs/{{ inventory_hostname }}.cfg') }}"
+
+    - name: Validate Intended Configuration
+      block:
+        - name: Check intended configuration against assertions file
+          assert:
+            that:
+              - "{{ item }}"
+            fail_msg: Configuration item not found in intended configuration.
+            quiet: yes
+          register: results # store assertion results in a variable we can reference later
+          with_items: "{{ assertions }}"
+      #  failed_when: false # prevents playbook from terminating if any assertions fail
+      rescue:
+        - name: Debug assertion failures
+          debug:
+            msg: [ "Assertion failed: {{ item.item }}",
+                    "{{ item.msg }}" ]
+          when: item.failed == true
+          with_items: "{{ results.results }}"
+
+
+  #  - name: Debug Assertion Results
+  #    debug:
+  #      msg: "{{ results.results }}"
+  #      msg: "{{ item}}"
+  #    with_items: "{{ results.results }}"
+  #    when: results.results.
