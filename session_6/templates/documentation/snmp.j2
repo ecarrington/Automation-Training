@@ -1,69 +1,67 @@
-{% if snmp_server is defined and snmp_server is not none %}
+{% if all_snmp is defined and all_snmp is not none %}
 ### SNMP Configuration Summary
 
 | Contact | Location | SNMP Traps | IPv4 ACL | IPv6 ACL |
 | ------- | -------- | ---------- | -------- | -------- |
-| {{ snmp_server.contact | default('-') }} | {{ snmp_server.location | default('-') }} | {% if snmp_server.traps.enable is defined and snmp_server.traps.enable is not none %}{% if snmp_server.traps.enable %} Enabled {% else %} Disabled {% endif %}{% endif %} | {{ snmp_server.access_list_v4 | default('-') }} | {{ snmp_server.access_list_v6 | default('-') }} |
+| {{ all_snmp.contact | default('-') }} | {{ host_snmp.location | default('-') }} | {% if all_snmp.traps is defined and all_snmp.traps is not none %} Enabled {% else %} Disabled {% endif %} | {{ all_snmp.access_list_v4 | default('-') }} | {{ all_snmp.access_list_v6 | default('-') }} |
 
 ### SNMP Local Interfaces
 
 | Local Interface | VRF |
 | --------------- | --- |
-{% if snmp_server.local_interfaces is defined and snmp_server.local_interfaces is not none %}
-{%      for interface in snmp_server.local_interfaces %}
-| {{interface.name}} | {{interface.vrf | default('default')}} |
-{%      endfor %}
+{% if all_service_source_interfaces.snmp is defined and all_service_source_interfaces.snmp is not none %}
+| {{ all_service_source_interfaces.snmp }} | {{ all_service_source_interfaces.vrf | default('default')}} |
 {% endif %}
 
+{% if all_snmp.vrfs is defined and all_snmp.vrfs is not none %}
 ### SNMP VRF Status
 
 | VRF | Status |
 | --- | ------ |
-{% if snmp_server.vrfs is defined and snmp_server.vrfs is not none %}
-{%      for vrf in snmp_server.vrfs %}
+{%      for vrf in all_snmp.vrfs %}
 | {{vrf.name}} | {% if vrf.enable %} Enabled {% else %} Disabled {% endif %} |
 {%      endfor %}
 {% endif %}
 
-{%  if snmp_server.hosts is defined and snmp_server.hosts is not none %}
+{%  if all_snmp.hosts is defined and all_snmp.hosts is not none %}
 ### SNMP Hosts Configuration
 
 | Host | VRF | Username | Authentication level | SNMP Version |
 | ---- |---- | -------- | -------------------- | ------------ |
-{%      for host in snmp_server.hosts %}
+{%      for host in all_snmp.hosts %}
 {%          if host.users is defined and host.users is not none %}{% for user in host.users %}| {{ host.host }} | {{ host.vrf | default('default') }} | {{user.username}} | {{user.authentication_level}} | {{user.version}} |
 {% endfor %}
-{%          else %}| {{ host.host }} | {{ host.vrf | default('default') }} | - | - | - |
+{%          else %}| {{ host }} | {{ host.vrf | default('default') }} | - | - | - |
 {%         endif %}
 {%      endfor %}
 {%  endif %}
 
-{%  if snmp_server.views is defined and snmp_server.views is not none %}
+{%  if all_snmp.views is defined and all_snmp.views is not none %}
 ### SNMP Views Configuration
 
-| View | MIB Family Name | Status |  
-| ---- | --------------- | ------ | 
-{%      for view in snmp_server.views %}
+| View | MIB Family Name | Status |
+| ---- | --------------- | ------ |
+{%      for view in all_snmp.views %}
 | {{ view.name | default('default') }} | {{ view.MIB_family_name | default('-') }} | {% if view.included %} Included {% else %} Excluded {% endif %}
 {%      endfor %}
 {%  endif %}
 
-{%  if snmp_server.groups is defined and snmp_server.groups is not none %}
+{%  if all_snmp.groups is defined and all_snmp.groups is not none %}
 ### SNMP Groups Configuration
 
-| Group | SNMP Version | Authentication | Read | Write | Notify |  
+| Group | SNMP Version | Authentication | Read | Write | Notify |
 | ----- | ------------ | -------------- | ---- | ----- | ------ |
-{%      for group in snmp_server.groups %}
+{%      for group in all_snmp.groups %}
 | {{ group.name | default('default') }} | {{ group.version | default('-') }} | {{ group.authentication | default('-') }} | {{ group.read | default('-') }} | {{ group.write | default('-') }} | {{ group.notify | default('-') }} |
 {%      endfor %}
 {%  endif %}
 
-{%  if snmp_server.users is defined and snmp_server.users is not none %}
+{%  if all_snmp.users is defined and all_snmp.users is not none %}
 ### SNMP Users Configuration
 
-| User | Group | Version | Authentication | Privacy | 
+| User | Group | Version | Authentication | Privacy |
 | ---- | ----- | ------- | -------------- | ------- |
-{%      for user in snmp_server.users %}
+{%      for user in all_snmp.users %}
 | {{ user.name | default('default') }} | {{ user.group | default('-') }} | {{ user.version | default('-') }} | {{ user.auth | default('-') }} | {{ user.priv | default('-') }} |
 {%      endfor %}
 {%  endif %}
@@ -71,8 +69,8 @@
 
 ### SNMP Device Configuration
 
-```eos
-{% include 'eos/snmp-settings.j2' %}
+```ios
+{% include 'ios/configuration/snmp-settings-v2.j2' %}
 ```
 {% else %}
 No SNMP settings defined
