@@ -5,11 +5,10 @@
 | ------- | -------- | ---------- | -------- | -------- |
 | {{ all_snmp.contact | default('-') }} | {{ host_snmp.location | default('-') }} | {% if all_snmp.traps is defined and all_snmp.traps is not none %} Enabled {% else %} Disabled {% endif %} | {{ all_snmp.access_list_v4 | default('-') }} | {{ all_snmp.access_list_v6 | default('-') }} |
 
+{% if all_service_source_interfaces.snmp is defined and all_service_source_interfaces.snmp is not none %}
 ### SNMP Local Interfaces
-
 | Local Interface | VRF |
 | --------------- | --- |
-{% if all_service_source_interfaces.snmp is defined and all_service_source_interfaces.snmp is not none %}
 | {{ all_service_source_interfaces.snmp | default('not specified') }}  | {{ all_service_source_interfaces.vrf | default('default')}} |
 {% endif %}
 
