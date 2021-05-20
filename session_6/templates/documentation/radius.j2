@@ -1,16 +1,23 @@
-{% if radius_servers is defined and radius_servers is not none %}
+{% if all_aaa_radius_servers is defined and all_aaa_radius_servers is not none %}
 ### RADIUS Servers
 
-| VRF | RADIUS Servers |
-| --- | ---------------|
-{%     for radius_server in radius_servers %}
-| {% if radius_server.vrf is defined %} {{ radius_server.vrf }} {% else %} default {% endif %}| {{ radius_server.host }} |
-{%  endfor %}
+| VRF | Hostname | IPv4 Address | Authentication Port | Authorization Port | Timeout (Seconds) | Retransmit Attempts | Special Attributes |
+| --- | -------- | ------------ | ------------------- | ------------------ | ----------------- | ------------------- | ------------------ |
+{%     for server in all_aaa_radius_servers.hosts %}
+| {%-      if server['vrf'] is defined %} {{ radius_server['vrf'] }} {% else %} default {% endif -%} |
+{%-        if server['name'] is defined and server['name'] is not none %} {{ server['name'] }} {% else %} - {% endif -%} |
+{%-        if server['ipv4_address'] is defined and server['ipv4_address'] is not none %} {{ server['ipv4_address'] }} {% else %} - {% endif -%} |
+{%-        if all_aaa_radius_servers.ports.auth is defined and all_aaa_radius_servers.ports.auth is not none %} {{ all_aaa_radius_servers.ports.auth }} {% else %} 1812(default) {% endif -%} |
+{%-        if all_aaa_radius_servers.ports.acct is defined and all_aaa_radius_servers.ports.acct is not none %} {{ all_aaa_radius_servers.ports.acct }} {% else %} 1813(default) {% endif -%} |
+{%-        if all_aaa_radius_servers.timeout is defined and all_aaa_radius_servers.timeout is not none %} {{ all_aaa_radius_servers.timeout }} {% else %} default {% endif -%} |
+{%-        if all_aaa_radius_servers.retransmit is defined and all_aaa_radius_servers.retransmit is not none %} {{ all_aaa_radius_servers.retransmit }} {% else %} default {% endif -%} |
+{%-        if all_aaa_radius_servers.attributes is defined and all_aaa_radius_servers.attributes is not none %}{% for attribute in all_aaa_radius_servers.attributes %} {{ attribute }}, {% endfor %} {% else %} none {% endif -%} |
+{%     endfor %}
 
 ### RADIUS Servers Device Configuration
 
-```eos
-{% include 'eos/radius-servers.j2' %}
+```ios
+{% include 'ios/configuration/radius-servers.j2' %}
 ```
 {% else %}
 RADIUS servers not defined
