@@ -13,7 +13,7 @@
       assert:
         that:
           - "item > 0"
-          - "item < 4094"
+          - "item < 4095"
         fail_msg: "'vlan_id' must be between 1-4094. Vlans 1002-1005 are not supported."
       with_items: "{{ vlan_id }}"
 

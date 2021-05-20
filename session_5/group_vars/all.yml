@@ -31,6 +31,8 @@ all_ntp_servers:
     prefer: false
   10.9.116.201:
     prefer: false
+  10.10.116.201:
+    prefer: false
 
 all_syslog:
   10.2.103.94:
