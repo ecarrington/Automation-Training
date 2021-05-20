@@ -25,73 +25,17 @@
       run_once: true
       tags: build,deploy
 
-    - name: Create temp output directory
-      file:
-        path: ../temp/{{ inventory_hostname }}/
-        state: directory
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Generate VLAN Configuration
-      template:
-        src: ../templates/configuration/vlans.j2
-        dest: ../temp/{{ inventory_hostname }}/vlans.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Generate VLAN Interface (SVI) Configuration
-      template:
-        src: ../templates/configuration/vlan-interfaces.j2
-        dest: ../temp/{{ inventory_hostname }}/vlan-interfaces.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Generate Interface Configuration
-      template:
-        src: ../templates/configuration/ethernet-interfaces.j2
-        dest: ../temp/{{ inventory_hostname }}/ethernet-interfaces.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Generate NTP Configuration
-      template:
-        src: ../templates/configuration/ntp.j2
-        dest: ../temp/{{ inventory_hostname }}/ntp.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Generate Syslog Configuration
-      template:
-        src: ../templates/configuration/syslog.j2
-        dest: ../temp/{{ inventory_hostname }}/syslog.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name : Generate SNMP Configuration
-      template:
-        src: ../templates/configuration/snmp.j2
-        dest: ../temp/{{ inventory_hostname }}/snmp.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Generate RADIUS Server Configuration
-      template:
-        src: ../templates/configuration/radius-servers.j2
-        dest: ../temp/{{ inventory_hostname }}/tacacs-servers.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Generate TACACS Server Configuration
-      template:
-        src: ../templates/configuration/tacacs-servers.j2
-        dest: ../temp/{{ inventory_hostname }}/tacacs-servers.cfg
-      delegate_to: localhost
-      tags: build,deploy
-
-    - name: Assemble configuration snippets into intended configuration
+    - name: Generate Intended Configuration
       template:
         src: ../templates/configuration/intended_config.j2
         dest: ../intended_configs/{{ inventory_hostname }}.cfg
+      delegate_to: localhost
+      tags: build,deploy
+
+    - name: Update Device Documentation
+      template:
+        src: ../templates/documentation/device_documentation.j2
+        dest: ../documentation/{{ inventory_hostname }}.md
       delegate_to: localhost
       tags: build,deploy
 
