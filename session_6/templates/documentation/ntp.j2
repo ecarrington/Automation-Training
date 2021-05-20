@@ -1,18 +1,18 @@
-{% if ntp_server is defined and ntp_server is not none %}
+{% if all_ntp_servers is defined and all_ntp_servers is not none %}
 ### NTP Summary
-{%   if ntp_server.local_interface.interface is defined and ntp_server.local_interface.interface is not none %}
+{%   if all_service_source_interfaces.ntp is defined and all_service_source_interfaces.ntp is not none %}
 
-- Local Interface: {{ ntp_server.local_interface.interface }}
+- Local Interface: {{ all_service_source_interfaces.ntp }}
 {%   endif %}
-{%   if ntp_server.local_interface.vrf is defined and ntp_server.local_interface.vrf is not none %}
+{%   if all_ntp_servers.local_interface.vrf is defined and all_ntp_servers.local_interface.vrf is not none %}
 
-- VRF: {{ ntp_server.local_interface.vrf }}
+- VRF: {{ all_ntp_servers.local_interface.vrf }}
 {%   endif %}
 
 | Node | Primary |
 | ---- | ------- |
-{%     for node in ntp_server.nodes %}
-{%         if loop.first %}
+{%     for node in all_ntp_servers %}
+{%         if all_ntp_servers[node].prefer == true %}
 | {{ node }} | true |
 {%         else %}
 | {{ node }} | - |
@@ -21,8 +21,8 @@
 
 ### NTP Device Configuration
 
-```eos
-{% include 'eos/ntp-servers.j2' %}
+```ios
+{% include 'ios/configuration/ntp-servers.j2' %}
 ```
 {% else %}
 No NTP servers defined
