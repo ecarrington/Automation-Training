@@ -12,7 +12,7 @@
 {%-        if host_vlan_interfaces[vlan_interface].fhrp.type is defined and host_vlan_interfaces[vlan_interface].fhrp.type is not none %}  {{ host_vlan_interfaces[vlan_interface].fhrp.type }} {% else %} - {% endif -%} |
 {%-        if host_vlan_interfaces[vlan_interface].fhrp.group is defined and host_vlan_interfaces[vlan_interface].fhrp.group is not none %}  {{ host_vlan_interfaces[vlan_interface].fhrp.group }} {% else %} - {% endif -%} |
 {%-        if host_vlan_interfaces[vlan_interface].fhrp.priority is defined and host_vlan_interfaces[vlan_interface].fhrp.priority is not none %}  {{ host_vlan_interfaces[vlan_interface].fhrp.priority }} {% else %} default {% endif -%} |
-{%-        if host_vlan_interfaces[vlan_interface].fhrp.preempt is defined and host_vlan_interfaces[vlan_interface].fhrp.preempt == true %} ENABLED {% else %} DISABLED {% endif -%} |
+{%-        if host_vlan_interfaces[vlan_interface].fhrp.preempt is defined and host_vlan_interfaces[vlan_interface].fhrp.preempt == true %} ENABLED {% elif host_vlan_interfaces[vlan_interface].fhrp.preempt is defined and host_vlan_interfaces[vlan_interface].fhrp.preempt == false %} DISABLED {% else %} - {% endif -%} |
 {%-        if host_vlan_interfaces[vlan_interface].access_group_in is defined and host_vlan_interfaces[vlan_interface].access_group_in is not none %} {{ host_vlan_interfaces[vlan_interface].access_group_in }} / IN {% elif host_vlan_interfaces[vlan_interface].access_group_out is defined and host_vlan_interfaces[vlan_interface].access_group_out is not none %} {{ host_vlan_interfaces[vlan_interface].access_group_out }} / OUT {% else %} none defined {% endif -%} |
 {%     endfor %}
 
@@ -35,11 +35,6 @@
 {%          endfor %}
 {%     endif %}
 
-### VLAN Interfaces Device Configuration
-
-```ios
-{% include 'ios/configuration/vlan-interfaces.j2' %}
-```
 {% else %}
 No VLAN interfaces defined
 {% endif %}

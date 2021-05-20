@@ -8,12 +8,6 @@
 | {{ vlan }} | {{ all_access_edge_vlans[vlan].name }} |
 {%-        if all_access_edge_vlans[vlan].trunk_groups is defined %}{% for trunk_group in all_access_edge_vlans[vlan].trunk_groups %} {{ trunk_group }} {% endfor %}{% else %} none {% endif %} |
 {%     endfor %}
-
-## VLAN Device Configuration
-
-```ios
-{% include 'ios/configuration/vlans.j2' %}
-```
 {% else %}
 No VLANs defined
 {% endif %}

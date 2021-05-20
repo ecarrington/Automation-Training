@@ -36,8 +36,6 @@
 {%     endif %}
 {%   endfor %}
 
-*Inherited from Port-Channel Interface
-
 {%     set ethernet_interface_isis = namespace() %}
 {%     set ethernet_interface_isis.configured = false %}
 {%     for ethernet_interface in host_ethernet_interfaces | arista.avd.natural_sort %}
@@ -56,12 +54,6 @@
 {%             endif %}
 {%          endfor %}
 {%     endif %}
-
-### Ethernet Interfaces Device Configuration
-
-```ios
-{% include 'ios/configuration/ethernet-interfaces.j2' %}
-```
 {% else %}
 No ethernet interface defined
 {% endif %}

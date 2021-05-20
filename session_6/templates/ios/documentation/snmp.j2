@@ -10,7 +10,7 @@
 | Local Interface | VRF |
 | --------------- | --- |
 {% if all_service_source_interfaces.snmp is defined and all_service_source_interfaces.snmp is not none %}
-| {{ all_service_source_interfaces.snmp }} | {{ all_service_source_interfaces.vrf | default('default')}} |
+| {{ all_service_source_interfaces.snmp | default('not specified') }}  | {{ all_service_source_interfaces.vrf | default('default')}} |
 {% endif %}
 
 {% if all_snmp.vrfs is defined and all_snmp.vrfs is not none %}
@@ -31,7 +31,7 @@
 {%      for host in all_snmp.hosts %}
 {%          if host.users is defined and host.users is not none %}{% for user in host.users %}| {{ host.host }} | {{ host.vrf | default('default') }} | {{user.username}} | {{user.authentication_level}} | {{user.version}} |
 {% endfor %}
-{%          else %}| {{ host }} | {{ host.vrf | default('default') }} | - | - | - |
+{%          else %}| {{ host }} | {{ host.vrf | default('default') }} | - | - | 2 |
 {%         endif %}
 {%      endfor %}
 {%  endif %}
@@ -66,12 +66,6 @@
 {%      endfor %}
 {%  endif %}
 
-
-### SNMP Device Configuration
-
-```ios
-{% include 'ios/configuration/snmp-settings-v2.j2' %}
-```
 {% else %}
 No SNMP settings defined
 {% endif %}

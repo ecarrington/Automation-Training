@@ -8,7 +8,7 @@
 {%    if all_syslog is defined and all_syslog is not none %}
 {%         for host in all_syslog %}
 | {{ host }} | {{ all_syslog[host].tcp_port | default('not specified') }} | {{ all_syslog[host].udp_port | default('not specified') }} |
-{%-            if all_service_source_interfaces.logging is defined and all_service_source_interfaces.logging is not none %} {{ all_service_source_interfaces.logging }} {% else %} not specified {% endif -%} | 
+{%-            if all_service_source_interfaces.logging is defined and all_service_source_interfaces.logging is not none %} {{ all_service_source_interfaces.logging }} {% else %} not specified {% endif -%} |
 {%         endfor %}
 {%    endif %}
 {% endif %}

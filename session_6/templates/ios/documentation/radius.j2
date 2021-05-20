@@ -14,11 +14,6 @@
 {%-        if all_aaa_radius_servers.attributes is defined and all_aaa_radius_servers.attributes is not none %}{% for attribute in all_aaa_radius_servers.attributes %} {{ attribute }}, {% endfor %} {% else %} none {% endif -%} |
 {%     endfor %}
 
-### RADIUS Servers Device Configuration
-
-```ios
-{% include 'ios/configuration/radius-servers.j2' %}
-```
 {% else %}
 RADIUS servers not defined
 {% endif %}
