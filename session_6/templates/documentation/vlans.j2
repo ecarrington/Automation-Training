@@ -1,18 +1,18 @@
-{# VLANs Summary #}
-{% if vlans is defined and vlans is not none %}
-## VLANs Summary
+{# all_access_edge_vlans Summary #}
+{% if all_access_edge_vlans is defined and all_access_edge_vlans is not none and host_role != 'core' %}
+## VLAN Summary
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
-{%     for vlan in vlans | arista.avd.natural_sort %}
-| {{ vlan }} | {{ vlans[vlan].name }} |
-{%-        if vlans[vlan].trunk_groups is defined %}{% for trunk_group in vlans[vlan].trunk_groups %} {{ trunk_group }} {% endfor %}{% else %} none {% endif %} |
+{%     for vlan in all_access_edge_vlans %}
+| {{ vlan }} | {{ all_access_edge_vlans[vlan].name }} |
+{%-        if all_access_edge_vlans[vlan].trunk_groups is defined %}{% for trunk_group in all_access_edge_vlans[vlan].trunk_groups %} {{ trunk_group }} {% endfor %}{% else %} none {% endif %} |
 {%     endfor %}
 
-## VLANs Device Configuration
+## VLAN Device Configuration
 
-```eos
-{% include 'eos/vlans.j2' %}
+```ios
+{% include 'ios/configuration/vlans.j2' %}
 ```
 {% else %}
 No VLANs defined
