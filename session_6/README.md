@@ -10,6 +10,7 @@
 ### Learning Markdown
 - https://dillinger.io - real-time in-browser markdown testing tool
 - https://markdowntutorial.com - interactive markdown tutorial
+- https://www.markdownguide.org/ - full markdown guide with examples and syntax
 - VsCode plugin
 
 ### Generating Markdown
