@@ -60,6 +60,7 @@ This method leverages Docker Desktop, which is designed to run as a native Windo
 - If you need to upgrade from WSL1 to WSL2, run the following in Powershell: ```console wsl --set-version <distro-name> 2```. I'd recommend Ubuntu 20.04. 
 - It will take some time to migrate your distros. Once the upgrade is complte, you can run ```console wsl -l -v``` and ensure your versions now read '2'. 
 - Reference for upgrading WSL1 to WSL2 can be found [here](https://dev.to/adityakanekar/upgrading-from-wsl1-to-wsl2-1fl9)
+- Finally, install Docker Desktop from [here](https://docker.com/products/docker-desktop)
 
 Once WSL2 is installed, configured, and verified running properly, ensure WSL 2 back-end is enabled. Right click on the Docker task bar and select 'settings'. Check 'use the wsl 2 based engine', and verify your correct distribution is enabled under 'resources > WSL integrations'.
 
