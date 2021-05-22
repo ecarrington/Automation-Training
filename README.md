@@ -54,6 +54,7 @@ sudo usermod -aG docker $USER
 
 #### Windows
 This method leverages Docker Desktop, which is designed to run as a native Windows application. It is important to note we must enable either Hyper-V AND WSL2 backend in order for Docker to function properly. The reason for WSL2 is so we may run Linux containers. If using WSL2, please note Windows 10 version 1903 or later is required. You can check this by running ```console winver ``` in your command terminal. 
+- Enable Hyper-V in Windows Features
 - Initial installation guide for WSL can be found [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10). Do not skip this step!
 - Install the WSL2 kernel from [here](https://docs.microsoft.com/en-us/windows/wsl/wsl2-kernel)
 - Run the installer. Once complete, open Powershell and run ```console wsl --list```, which will list all the distros and version of WSL in the version column. 
