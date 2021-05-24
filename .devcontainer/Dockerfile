@@ -11,11 +11,12 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #COPY .zshrc /root/.zshrc
 
 # Zerotier installation and configuration
-CMD curl https://install.zerotier.com/ | bash 
-CMD /usr/sbin/zerotier-one -d 
-CMD /usr/sbin/zerotier-cli join b6079f73c69c7aee 
+# This should only run one time at first build of container, otherwise UID changes
+RUN curl https://install.zerotier.com/ | bash \
+     && /usr/sbin/zerotier-one -d \
+     && /usr/sbin/zerotier-cli join b6079f73c69c7aae 
 
 # Git configuration 
-CMD git config --global user.name Adam Licht 
-CMD git config --global user.email amlicht89@gmail.com
+RUN git config --global user.name Adam Licht \
+     && git config --global user.email amlicht89@gmail.com
 
