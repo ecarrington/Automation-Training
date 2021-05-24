@@ -8,7 +8,7 @@ Each session will have a repository with its own applicable playbooks, scripts, 
 Vscode allows us to develop straight into docker containers using the remote-containers plugin. This creates a 'bridge' between itself and a container. This is handy because we can now leverage the power of docker and ZeroTier VPN service to connect remotely to our EVE-NG nodes running in Google Cloud platform, making them appear as if they are local to us. Not only this, but running a pre-built Docker environment ensures a consistent experience for every user as dependencies are predefined in the Dockerfile. 
 
 ### Configuring Remote-Containers for VsCode
-There is a good writeup for this configuration that can be found [here](https://code.visualstudio.com/docs/remote/containers). It covers both Windows and Linux intallations, but for brevity I've including the initial configuration steps below. 
+There is a good writeup for this configuration that can be found [here](https://code.visualstudio.com/docs/remote/containers). It covers both Windows and Linux intallations, but for brevity I've including the initial configuration steps below. Containers consist of two primary files; devcontainer.json, which defines configuration parameters relating to how VsCode will run your container, and the Dockerfile itself, which contains the set of instructions used for building the container. 
 
 #### Linux
 Recommended OS at time of writing: Ubuntu 20.04.2 LTS
@@ -50,7 +50,9 @@ sudo usermod -aG docker $USER
 
 **Run your new Docker container in VsCode**
 - Control + P will open your VsCode shell. Select 'remote-containers: rebuild and reopen in container'. This does exactly what it says it will do - it rebuilds your current environment inside of the container that is sitting in your .devcontainers folder. 
-- At this point, you should be able to open a terminal and access your container. You're now free to develop in VsCode and run that code inside your container. 
+- At this point, you should be able to open a terminal and access your container. You're now free to develop in VsCode and run that code inside your container.
+- To exit out of your container (it will still be running, however), Control + P and execute the command 'reopen locally', which will reopen your VsCode environment locally.
+- To re-enter your container that is already running, Control + P and execute the command 'reopen in container'. There is no need to rebuild if the container is already running.
 
 #### Windows
 This method leverages Docker Desktop, which is designed to run as a native Windows application. It is important to note we must enable either Hyper-V AND WSL2 backend in order for Docker to function properly. The reason for WSL2 is so we may run Linux containers. If using WSL2, please note Windows 10 version 1903 or later is required. You can check this by running ```console winver ``` in your command terminal. 
