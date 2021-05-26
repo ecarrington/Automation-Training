@@ -12,7 +12,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # Zerotier installation and configuration
 # This should only run one time at first build of container, otherwise UID changes
-RUN curl https://install.zerotier.com/ | bash \
+RUN curl -k https://install.zerotier.com/ | bash \
      && /usr/sbin/zerotier-one -d \
      && /usr/sbin/zerotier-cli join b6079f73c69c7aae 
 
