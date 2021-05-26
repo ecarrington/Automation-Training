@@ -43,13 +43,13 @@ sudo usermod -aG docker $USER
 ```
 
 **Install remote development extension pack in VsCode, which includes the remote-containers plugin**
-- Use control + P to open the VsCode shell and select 'remote-containers: add development container'. Select ubuntu bionic. This will give you the basice .devcontainer folder structure we can use as a boilerplate for building our own Dockerfile and devcontainer.json file
+- Use control + P to open the VsCode shell and select 'remote-containers: add development container'. Select ubuntu bionic. This will give you the basic .devcontainer folder structure we can use as a boilerplate for building our own Dockerfile and devcontainer.json file
 - Then, build your devcontainer.json file. This file defines how the container will run in VsCode's remote development environment
 - Next, build your Dockerfile, which is the set of instructions the container will use to install dependencies when it boots.
 - Reference [here](https://code.visualstudio.com/docs/remote/create-dev-container#_create-a-devcontainerjson-file)
 
 **Run your new Docker container in VsCode**
-- Control + P will open your VsCode shell. Select 'remote-containers: rebuild and reopen in container'. This does exactly what it says it will do - it rebuilds your current environment inside of the container that is sitting in your .devcontainers folder. 
+- Control + P will open your VsCode shell. Select 'remote-containers: rebuild and reopen in container'. This does exactly what it says it will do - it rebuilds your current environment inside of the container that is sitting in your .devcontainers folder. It should also be noted this rebuilds your entire workspace in a container, so its a good idea to have a dedicated workspace for a project you are trying to containerize. 
 - At this point, you should be able to open a terminal and access your container. You're now free to develop in VsCode and run that code inside your container.
 - To exit out of your container (it will still be running, however), Control + P and execute the command 'reopen locally', which will reopen your VsCode environment locally.
 - To re-enter your container that is already running, Control + P and execute the command 'reopen in container'. There is no need to rebuild if the container is already running.
