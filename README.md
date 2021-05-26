@@ -73,3 +73,6 @@ You should now be able to install and configure the remote-containers extension 
 - Try to launch manually via Docker Desktop
 - If Docker Desktop does not load and you get an error stating your account is not in the 'docker-users' group, navigate to computer management > local users and groups > find the 'docker-users' group, and add your account to it. 
 
+**VPN Caveats**
+- You must be off all other client VPNs for connectivity to the GCP EVE-NG environment via ZeroTier to work!
+
