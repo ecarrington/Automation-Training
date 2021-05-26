@@ -69,3 +69,7 @@ Once WSL2 is installed, configured, and verified running properly, ensure WSL 2 
 
 You should now be able to install and configure the remote-containers extension for VsCode as detailed above in the Linux configuration. 
 
+**If your container will not start (Windows)**
+- Try to launch manually via Docker Desktop
+- If Docker Desktop does not load and you get an error stating your account is not in the 'docker-users' group, navigate to computer management > local users and groups > find the 'docker-users' group, and add your account to it. 
+
