@@ -7,6 +7,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
      && pip install wheel \
      && pip install ansible \ 
      && pip install paramiko 
+     
+RUN apt-get install iputils-ping
 
 #COPY .zshrc /root/.zshrc
 
